@@ -21,5 +21,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Создаем дополнительные пользователей для теста
+        User::factory(5)->create();
+
+        // Создаем тестовые договоры
+        $this->call([
+            ContractSeeder::class,
+        ]);
     }
 }
