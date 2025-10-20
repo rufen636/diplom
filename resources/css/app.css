@@ -1,11 +1,44 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@layer base {
+    :root {
+        --color-primary: #416081;
+        --color-secondary: #4E89A5;
+        --color-accent: #8F9C9B;
+        --color-tertiary: #B75D5D;
+        --color-light: #D9D9D9;
+        --color-medium: #998363;
+    }
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+@layer components {
+    .btn-primary {
+        @apply bg-[#416081] hover:bg-[#4E89A5] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+    }
+    
+    .btn-secondary {
+        @apply bg-[#4E89A5] hover:bg-[#8F9C9B] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+    }
+    
+    .btn-danger {
+        @apply bg-[#B75D5D] hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+    }
+    
+    .card {
+        @apply bg-white rounded-lg shadow-md p-6 border border-[#D9D9D9];
+    }
+    
+    .input-field {
+        @apply w-full px-4 py-2 border border-[#D9D9D9] rounded-lg focus:ring-2 focus:ring-[#416081] focus:border-transparent outline-none transition-all;
+    }
+    
+    .nav-link {
+        @apply flex items-center px-4 py-3 text-gray-700 hover:bg-[#4E89A5] hover:text-white rounded-lg transition-colors duration-200;
+    }
+    
+    .nav-link.active {
+        @apply bg-[#416081] text-white;
+    }
 }
