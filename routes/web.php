@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Manager\DashboardController;
 use App\Http\Controllers\Manager\UsersController;
 use App\Http\Controllers\Manager\ContractsController;
+use App\Http\Controllers\Manager\TariffsController;
+use App\Http\Controllers\Manager\ProviderClientsController;
 use App\Http\Controllers\Manager\SettingsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +49,22 @@ Route::middleware(['auth', 'verified'])->prefix('manager')->name('manager.')->gr
     Route::get('/contracts/{contract}/edit', [ContractsController::class, 'edit'])->name('contracts.edit');
     Route::put('/contracts/{contract}', [ContractsController::class, 'update'])->name('contracts.update');
     Route::delete('/contracts/{contract}', [ContractsController::class, 'destroy'])->name('contracts.destroy');
+
+    // Управление тарифами
+    Route::get('/tariffs', [TariffsController::class, 'index'])->name('tariffs.index');
+    Route::get('/tariffs/create', [TariffsController::class, 'create'])->name('tariffs.create');
+    Route::post('/tariffs', [TariffsController::class, 'store'])->name('tariffs.store');
+    Route::get('/tariffs/{tariff}/edit', [TariffsController::class, 'edit'])->name('tariffs.edit');
+    Route::put('/tariffs/{tariff}', [TariffsController::class, 'update'])->name('tariffs.update');
+    Route::delete('/tariffs/{tariff}', [TariffsController::class, 'destroy'])->name('tariffs.destroy');
+
+    // Управление клиентами провайдера
+    Route::get('/provider-clients', [ProviderClientsController::class, 'index'])->name('provider-clients.index');
+    Route::get('/provider-clients/create', [ProviderClientsController::class, 'create'])->name('provider-clients.create');
+    Route::post('/provider-clients', [ProviderClientsController::class, 'store'])->name('provider-clients.store');
+    Route::get('/provider-clients/{providerClient}/edit', [ProviderClientsController::class, 'edit'])->name('provider-clients.edit');
+    Route::put('/provider-clients/{providerClient}', [ProviderClientsController::class, 'update'])->name('provider-clients.update');
+    Route::delete('/provider-clients/{providerClient}', [ProviderClientsController::class, 'destroy'])->name('provider-clients.destroy');
 
     // Настройки
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
