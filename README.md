@@ -1,61 +1,210 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **Программное средство управления договорами с физическими и юридическими лицами на предоставление услуг доступа к сети «Интернет»**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Программное средство управления договорами представляет собой комплексную систему автоматизации всего жизненного цикла договорной работы интернет-провайдера. Оно обеспечивает централизованное управление договорами с физическими и юридическими лицами — от создания и согласования до подписания, исполнения и архивации. Система интегрирует процессы продаж, юристов, абонентского отдела и бухгалтерии, значительно сокращая время обработки документов и минимизируя ошибки. За счет автоматизации рутинных операций и встроенной аналитики решение повышает прозрачность, контролируемость и эффективность бизнес-процессов компании.
 
-## About Laravel
+Ссылки на репозитории сервера и клиента
+https://github.com/rufen636/diplom_client_server
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## **Содержание**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. [Архитектура](#Архитектура)
+	1. [C4-модель](#C4-модель)
+	2. [Схема данных](#Схема_данных)
+2. [Функциональные возможности](#Функциональные_возможности)
+	1. [Диаграмма вариантов использования(#Диаграмма_вариантов_использования)]
+	2. [User-flow диаграммы](#User-flow_диаграммы)
+3. [Детали реализации](#Детали_реализации)
+	1. [UML-диаграммы](#UML-диаграммы)
+	2. [Спецификация API](#Спецификация_API)
+	3. [Безопасность](#Безопасность)
+	4. [Оценка качества кода](#Оценка_качества_кода)
+4. [Тестирование](#Тестирование)
+	1. [Unit-тесты](#Unit-тесты)
+	2. [Интеграционные тесты](#Интеграционные_тесты)
+5. [Установка и  запуск](#installation)
+	1. [Манифесты для сборки docker образов](#Манифесты_для_сборки_docker_образов)
+	2. [Манифесты для развертывания k8s кластера](#Манифесты_для_развертывания_k8s_кластера)
+6. [Лицензия](#Лицензия)
+7. [Контакты](#Контакты)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
+## **Архитектура**
 
-## Learning Laravel
+### C4-модель
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Для описания архитектурных решений программного средства использована нотация C4-model, которая представляет архитектуру на четырех уровнях декомпозиции. Каждый последующий уровень детализирует предыдущий, включая четыре уровня абстракции: контекст, контейнеры, компоненты и код. На уровне контекста показывается обзор системы и ее взаимодействие с окружением. Для разрабатываемого программного средства контекстный уровень представлен ниже.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<!-- <img width="383" height="283" alt="image" src="https://github.com/user-attachments/assets/ff8c15b8-a461-4459-8c79-e7e50ed3ee5b" /> -->
+<img width="794" height="450" alt="Снимок экрана 2025-09-25 в 19 24 18" src="https://github.com/user-attachments/assets/18e9faad-fbfc-49d3-ad96-bd08eb521e0b" />
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+Следующим уровнем представления архитектуры является контейнерный. В нем составные части архитектуры, определенные на контекстном уровне, декомпозируются для предоставления информации о технических блоках высокого уровня. Для разрабатываемого программного средства контейнерный уровень представлен ниже.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+<!-- <img width="424" height="382" alt="image" src="https://github.com/user-attachments/assets/49eb09f7-27c7-4ccf-a0cf-d724232d7b72" /> -->
+<img width="558" height="482" alt="Снимок экрана 2025-09-25 в 19 23 44" src="https://github.com/user-attachments/assets/76fad989-342c-45e4-ad85-3fe06adcd808" />
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Следующим уровнем представления архитектуры является компонентный. В нем представляются внутренние блоки контейнеров, определенные на контейнерном уровне. Для разрабатываемого программного средства компонентный уровень представлен ниже.
 
-## Contributing
+<img width="470" height="366" alt="image" src="https://github.com/user-attachments/assets/e4274b27-12b5-4f73-87e7-6042d505c41a" />
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+Самым нижним уровнем представления архитектуры является кодовый. В нем представляется внутренняя организация компонентов, определенных 
+на компонентном уровне. Для разрабатываемого программного средства кодовый уровень представлен ниже.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<img width="340" height="419" alt="image" src="https://github.com/user-attachments/assets/9eb579b8-eecf-4156-871a-d856c2969149" />
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Таким образом была разработана архитектура программного приложения, в соответствии с которой оно было разработано. 
+Чистая архитектура программного средства управления договорами строится на принципе разделения ответственности между слоями, где каждый слой решает строго определённую задачу и не зависит от технических деталей других. Это позволяет системе быть гибкой, масштабируемой и легко объяснимой – как для команды разработки, так и при защите архитектурных решений.
+В центре находится слой бизнес-логики, который включает в себя основные сущности: договор, клиент (физическое и юридическое лицо), услуга доступа к интернету, платеж, а также бизнес-метрики – срок согласования, количество изменений, статус договора, финансовые показатели. Эти сущности описывают, как работает процесс управления договорами, и используются в сценариях создания, согласования, подписания и контроля исполнения. Например, сущность Contract содержит данные о клиенте, услугах, тарифах, сроках действия, а метрики агрегируют показатели эффективности workflow.
+Слой сценариев реализует прикладную логику: создание договора по шаблону, согласование документа, подписание, контроль сроков действия, формирование отчетности. Каждый сценарий оформлен как отдельный use case, который принимает входные параметры, обрабатывает их с помощью бизнес-сущностей и возвращает результат. Например, CreateContractUseCase получает данные клиента и услуги, генерирует номер договора, применяет шаблон и возвращает готовый документ. ApproveContractUseCase управляет workflow согласования, а GenerateReportUseCase формирует аналитические отчеты по договорной деятельности.
+Слой адаптеров связывает бизнес-логику с внешним миром. Контроллеры принимают HTTP-запросы, преобразуют их в команды или запросы и передают в соответствующие обработчики. Например, ContractController обрабатывает POST-запрос на создание договора, вызывает CreateContractHandler, а ReportController обрабатывает GET-запрос и вызывает GenerateReportHandler. DTO и мапперы преобразуют данные между слоями, репозитории реализуют доступ к базе, презентеры формируют ответ для UI.
+Слой инфраструктуры реализует технические детали: Laravel – для бэкенд-логики и API, Vue.js SPA – для интерактивного интерфейса управления, MySQL – для хранения данных договоров и клиентов, JWT – для авторизации и аутентификации пользователей. Eloquent ORM обеспечивает объектно-ориентированную работу с данными, а Vue Router и Vuex управляют состоянием клиентского приложения.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+### Схема данных
+
+С учётом специфики сервиса управления договорами и тарифами, спроектирована реляционная модель данных, охватывающая ключевые сущности: пользователи, контракты, тарифы и система ролевых разрешений. Схема обеспечивает хранение информации о клиентах, договорах, тарифных планах и управлении доступом пользователей.
+Пользователи (Users). Сотрудники и клиенты, использующие систему для управления контрактами и тарифами. Атрибуты:
+1	id (PK): уникальный идентификатор;
+2	name: ФИО пользователя;
+3	email: адрес электронной почты (уникальное значение);
+4	password: хэш пароля;
+5	email_verified_at: дата подтверждения email;
+6	created_at: дата регистрации;
+7	updated_at: дата обновления данных.
+Для предоставления различных прав доступа в системе предусмотрена ролевая модель управления доступом. Чтобы обеспечить масштабируемость и соответствие нормализации, роли и разрешения вынесены в отдельные таблицы roles, permissions, role_has_permissions и models_has_roles.
+Контракты (Contracts). Договоры с клиентами на предоставление услуг. Атрибуты:
+1	id (PK): уникальный идентификатор контракта;
+2	user_id (FK → users.id): идентификатор пользователя;
+3	contract_number: номер договора;
+4	title: наименование договора;
+5	start_date: дата начала действия;
+6	end_date: дата окончания действия;
+7	amount: сумма контракта;
+8	status: статус контракта (active, completed, terminated);
+9	description: подробное описание условий контракта.
+Клиенты провайдера (Provider_clients). Клиента провайдера,которые пользуются услугами. Атрибуты:
+1	id (PK): уникальный идентификатор клиента;
+2	name: наименование юридического/физического лица;
+3	type: юридическое/физическое лицо;
+4	contact_person: контактное лицо;
+5	email: адрес электронной почты;
+6	phone: номер телефона;
+7	address: юридический адрес;
+8	inn: ИНН;
+9	kpp: КПП;
+10	status: статус клиента;
+11	notes: дополнительные заметки.
+12	user_id (FK → users.id): идентификатор пользователя-клиента;
+Тарифы (Tariffs). Тарифные планы на предоставляемые услуги. Атрибуты:
+1	id (PK): уникальный идентификатор тарифа;
+2	name: название тарифа;
+3	description: описание тарифного плана;
+4	price: стоимость тарифа;
+5	speed: скорость обслуживания;
+6	duration_months: продолжительность действия в месяцах;
+7	is_active: флаг активности тарифа;
+8	sort_order: порядок сортировки.
+9	user_id (FK → users.id): идентификатор пользователя-клиента;
+Система ролей и разрешений. Управление правами доступа пользователей в системе. Атрибуты:
+1	roles: роли пользователей с указанием названия и системы защиты;
+2	permissions: разрешения с указанием названия и системы защиты;
+3	role_has_permissions: связь ролей с соответствующими разрешениями;
+4	models_has_roles: назначение ролей пользователям системы.
+5	На основе выделенных сущностей и их атрибутов была построена физическая схема базы данных. Она представлена на рисунке 1. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+Рисунок 1 – Физическая схема базы данных
+
+Данная схема соответствует третьей нормальной форме по следующим причинам:
+1	Схема находится в первой нормальной форме, поскольку все атрибуты ее сущностей атомарны.
+2	Схема находится во второй нормальной форме, так как она находится в первой нормальной форме и каждый неключевой атрибут находится в полной функциональной зависимости от ключа.
+3	Схема находится в третьей нормальной форме, поскольку она находится во второй нормальной форме и каждый неключевой атрибут находится в нетранзитивной зависимости от первичного ключа.
+<img width="471" height="644" alt="image" src="https://github.com/user-attachments/assets/3ebfed91-9af7-4c39-83bd-132eae2385e7" />
+
+
+---
+
+## **Функциональные возможности**
+
+### Диаграмма вариантов использования
+
+Диаграмма вариантов использования и ее описание
+
+### User-flow диаграммы
+
+Описание переходов между части ПС для всех ролей из диаграммы ВИ (название ролей должны совпадать с тем, что указано на c4-модели и диаграмме вариантов использования)
+
+
+---
+
+## **Детали реализации**
+
+### UML-диаграммы
+
+Представить все UML-диаграммы , которые позволят более точно понять структуру и детали реализации ПС
+
+### Спецификация API
+
+Представить описание реализованных функциональных возможностей ПС с использованием Open API (можно представить либо полный файл спецификации, либо ссылку на него)
+
+### Безопасность
+
+Описать подходы, использованные для обеспечения безопасности, включая описание процессов аутентификации и авторизации с примерами кода из репозитория сервера
+
+### Оценка качества кода
+
+Используя показатели качества и метрики кода, оценить его качество
+
+---
+
+## **Тестирование**
+
+### Unit-тесты
+
+Представить код тестов для пяти методов и его пояснение
+
+### Интеграционные тесты
+
+Представить код тестов и его пояснение
+
+---
+
+## **Установка и  запуск**
+
+### Манифесты для сборки docker образов
+
+Представить весь код манифестов или ссылки на файлы с ними (при необходимости снабдить комментариями)
+
+### Манифесты для развертывания k8s кластера
+
+Представить весь код манифестов или ссылки на файлы с ними (при необходимости снабдить комментариями)
+
+---
+
+## **Лицензия**
+
+Этот проект лицензирован по лицензии MIT - подробности представлены в файле [[License.md|LICENSE.md]]
+
+---
+
+## **Контакты**
+
+Автор: email
