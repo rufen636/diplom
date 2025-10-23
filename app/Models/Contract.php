@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Contract extends Model
 {
@@ -60,4 +61,5 @@ class Contract extends Model
             default => 'bg-gray-100 text-gray-800',
         };
     }
+
 }

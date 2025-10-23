@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('duration_months')->default(1);
             $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

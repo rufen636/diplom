@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Tariff extends Model
 {
@@ -35,5 +36,9 @@ class Tariff extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('price');
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
