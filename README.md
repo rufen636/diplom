@@ -126,6 +126,7 @@ https://github.com/rufen636/diplom_client_server
 
 
 
+<img width="404" height="378" alt="image" src="https://github.com/user-attachments/assets/26768902-1ef3-4336-b646-96b89351ed8a" />
 
 
 
