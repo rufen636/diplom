@@ -91,6 +91,33 @@ const submit = () => {
                     :message="form.errors.password_confirmation"
                 />
             </div>
+            <div class="mt-4">
+                <div class="mb-4">
+                    <div class="flex items-center mb-2">
+                        <label class="dark:text-black text-sm flex items-center justify-between w-full">
+                            Менеджер
+                            <input type="radio" v-model="form.role" name="role" value="admin" class="form-radio ml-2">
+                        </label>
+                    </div>
+                </div>
+                <div class="border-t border-gray-300 pt-4 mb-4">
+                    <div class="flex items-center mb-2">
+                        <label class="dark:text-black text-sm flex items-center justify-between w-full">
+                            Технический специалист
+                            <input type="radio" v-model="form.role" name="role" value="student" class="form-radio ml-2">
+                        </label>
+                    </div>
+                </div>
+                <div class="border-t border-gray-300 pt-4">
+                    <div class="flex items-center">
+                        <label class="dark:text-black text-sm flex items-center justify-between w-full">
+                            Бухгалтер
+                            <input type="radio" v-model="form.role" name="role" value="student" class="form-radio ml-2">
+                        </label>
+                    </div>
+                </div>
+                <div v-if="error" class="mt-2 text-red-600 text-sm">{{ error }}</div>
+            </div>
 
             <div class="mt-4 flex items-center justify-end">
                 <Link
