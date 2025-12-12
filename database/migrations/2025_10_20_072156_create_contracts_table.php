@@ -15,11 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('contract_number')->unique();
             $table->string('title');
+            $table->string('description');
+            $table->foreignId('client_id')->constrained('provider_clients')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('amount', 15, 2);
             $table->enum('status', ['active', 'completed', 'terminated'])->default('active');
+            $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->timestamps();
         });
