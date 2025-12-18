@@ -1,0 +1,600 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "API для управления тарифами, договорами и клиентами",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Локальный сервер"
+        }
+    ],
+    "paths": {
+        "/api/manager/tariffs": {
+            "get": {
+                "tags": [
+                    "Тарифы"
+                ],
+                "summary": "Получить список тарифов",
+                "description": "Возвращает список тарифов с пагинацией и фильтрацией",
+                "operationId": "getTariffs",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Номер страницы",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Количество элементов на странице",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Поиск по имени или описанию",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Фильтр по статусу",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "active",
+                                "inactive"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Tariff"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Тарифы"
+                ],
+                "summary": "Создать новый тариф",
+                "description": "Создает новый тариф",
+                "operationId": "createTariff",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "speed",
+                                    "duration_months"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Базовый тариф"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Базовый пакет услуг",
+                                        "nullable": true
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1000.5
+                                    },
+                                    "speed": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "duration_months": {
+                                        "type": "integer",
+                                        "example": 12
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "sort_order": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Тариф успешно создан",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tariff"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/manager/tariffs/{id}": {
+            "get": {
+                "tags": [
+                    "Тарифы"
+                ],
+                "summary": "Получить информацию о тарифе",
+                "description": "Возвращает информацию о конкретном тарифе",
+                "operationId": "getTariff",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID тарифа",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tariff"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Тариф не найден"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Тарифы"
+                ],
+                "summary": "Обновить тариф",
+                "description": "Обновляет информацию о тарифе",
+                "operationId": "updateTariff",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID тарифа",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "speed",
+                                    "duration_months"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Обновленный тариф"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Обновленное описание",
+                                        "nullable": true
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1200
+                                    },
+                                    "speed": {
+                                        "type": "integer",
+                                        "example": 150
+                                    },
+                                    "duration_months": {
+                                        "type": "integer",
+                                        "example": 24
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "sort_order": {
+                                        "type": "integer",
+                                        "example": 2,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Тариф успешно обновлен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tariff"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Тариф не найден"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Тарифы"
+                ],
+                "summary": "Удалить тариф",
+                "description": "Удаляет тариф",
+                "operationId": "deleteTariff",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID тарифа",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Тариф успешно удален"
+                    },
+                    "404": {
+                        "description": "Тариф не найден"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ErrorResponse": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Произошла ошибка"
+                    },
+                    "errors": {
+                        "type": "object",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "Пользователь",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Иван Иванов"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "ivan@example.com"
+                    }
+                },
+                "type": "object"
+            },
+            "ProviderClientRequest": {
+                "title": "Запрос для клиента провайдера",
+                "required": [
+                    "company_name",
+                    "contact_person",
+                    "email",
+                    "phone",
+                    "status"
+                ],
+                "properties": {
+                    "company_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "ООО Ромашка"
+                    },
+                    "contact_person": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Петров Петр"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "example": "info@romashka.ru"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "+7 (999) 123-45-67"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "ул. Ленина, д. 1",
+                        "nullable": true
+                    },
+                    "inn": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "1234567890",
+                        "nullable": true
+                    },
+                    "kpp": {
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "123456789",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive",
+                            "blocked"
+                        ],
+                        "example": "active"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Важный клиент",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TariffListResponse": {
+                "title": "Ответ со списком тарифов",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Tariff"
+                        }
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "from": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 10
+                            },
+                            "path": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/manager/tariffs"
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 10
+                            },
+                            "to": {
+                                "type": "integer",
+                                "example": 10
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 100
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/manager/tariffs?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/manager/tariffs?page=10"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost:8000/api/manager/tariffs?page=2",
+                                "nullable": true
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Tariff": {
+                "title": "Тариф",
+                "description": "Модель тарифа",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Базовый тариф"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Базовый пакет услуг",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000.5
+                    },
+                    "speed": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "duration_months": {
+                        "type": "integer",
+                        "example": 12
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "parameters": {
+            "PageParameter": {
+                "name": "page",
+                "in": "query",
+                "description": "Номер страницы",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 1
+                }
+            },
+            "PerPageParameter": {
+                "name": "per_page",
+                "in": "query",
+                "description": "Количество элементов на странице",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 10,
+                    "maximum": 100
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Тарифы",
+            "description": "Управление тарифами"
+        }
+    ]
+}
