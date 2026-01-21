@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('contract_number')->unique();
             $table->string('title');
-            $table->string('description');
             $table->foreignId('client_id')->constrained('provider_clients')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('start_date');

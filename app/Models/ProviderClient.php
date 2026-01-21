@@ -5,6 +5,42 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property string $company_name
+ * @property string $contact_person
+ * @property string $email
+ * @property string $phone
+ * @property string $type
+ * @property string|null $address
+ * @property string|null $inn
+ * @property string|null $kpp
+ * @property string $status
+ * @property string|null $notes
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereCompanyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereContactPerson($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereInn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereKpp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereUserId($value)
+ * @mixin \Eloquent
+ */
 class ProviderClient extends Model
 {
     protected $fillable = [

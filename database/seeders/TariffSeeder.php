@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Tariff;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class TariffSeeder extends Seeder
 {
@@ -13,6 +14,13 @@ class TariffSeeder extends Seeder
      */
     public function run(): void
     {
+        $users = User::query()->pluck('id');
+        if ($users->isEmpty()) {
+            $this->command?->warn('Нет пользователей для создания тарифов. Сначала создайте пользователей.');
+            return;
+        }
+
+        $now = now();
         $tariffs = [
             [
                 'name' => 'Базовый 50',
@@ -22,6 +30,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => true,
                 'sort_order' => 1,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Стандарт 100',
@@ -31,6 +42,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => true,
                 'sort_order' => 2,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Комфорт 150',
@@ -40,6 +54,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => true,
                 'sort_order' => 3,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Премиум 200',
@@ -49,6 +66,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => true,
                 'sort_order' => 4,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Бизнес 300',
@@ -58,6 +78,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => true,
                 'sort_order' => 5,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Бизнес 500',
@@ -67,6 +90,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => true,
                 'sort_order' => 6,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Корпоративный 1000',
@@ -76,6 +102,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => true,
                 'sort_order' => 7,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Эконом 25',
@@ -85,6 +114,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => true,
                 'sort_order' => 0,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Годовой 100',
@@ -94,6 +126,9 @@ class TariffSeeder extends Seeder
                 'duration_months' => 12,
                 'is_active' => true,
                 'sort_order' => 8,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'name' => 'Ночной 200',
@@ -103,11 +138,12 @@ class TariffSeeder extends Seeder
                 'duration_months' => 1,
                 'is_active' => false,
                 'sort_order' => 9,
+                'user_id' => $users->random(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
         ];
 
-        foreach ($tariffs as $tariff) {
-            Tariff::create($tariff);
-        }
+        DB::table('tariffs')->insert($tariffs);
     }
 }

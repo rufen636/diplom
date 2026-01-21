@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->morphs('imageable');
+            $table->string('small_uri')->nullable();
+            $table->string('big_uri')->nullable();
             $table->timestamps();
         });
     }

@@ -25,9 +25,23 @@ class DatabaseSeeder extends Seeder
         // Создаем дополнительные пользователей для теста
         User::factory(5)->create();
 
-        // Создаем тестовые договоры
+        // Доменные сиды (важен порядок из-за FK)
         $this->call([
+            ServiceCategorySeeder::class,
+            ServicesSeeder::class,
+            TariffSeeder::class,
+            ProviderClientSeeder::class,
             ContractSeeder::class,
+            BillingSeeder::class,
+            ClientRequestSeeder::class,
+            PaymentMethodSeeder::class,
+            NetworkMapSeeder::class,
+            EquipmentCategorySeeder::class,
+            EquipmentSeeder::class,
+            ServiceEquipmentSeeder::class,
+            BuhActSeeder::class,
+            SampleContractSeeder::class,
+            ImageSeeder::class,
         ]);
     }
 }

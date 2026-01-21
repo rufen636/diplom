@@ -7,6 +7,41 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $id
+ * @property string $contract_number
+ * @property string $title
+ * @property int $client_id
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon $start_date
+ * @property \Illuminate\Support\Carbon $end_date
+ * @property numeric $amount
+ * @property string $status
+ * @property int $service_id
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $status_color
+ * @property-read string $status_label
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereContractNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contract whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Contract extends Model
 {
     use HasFactory;
