@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
- * @property string $company_name
+ * @property string $name
  * @property string $contact_person
  * @property string $email
  * @property string $phone
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereCompanyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereContactPerson($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProviderClient whereEmail($value)
@@ -44,7 +45,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProviderClient extends Model
 {
     protected $fillable = [
-        'company_name',
+        'id',
+        'name',
         'contact_person',
         'email',
         'phone',
@@ -53,6 +55,7 @@ class ProviderClient extends Model
         'kpp',
         'status',
         'notes',
+        'user_id',
     ];
 
     /**
@@ -81,5 +84,10 @@ class ProviderClient extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class,'client_id','id');
     }
 }

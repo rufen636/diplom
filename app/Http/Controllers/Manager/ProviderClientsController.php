@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Manager;
 
+use App\Handlers\Manager\Client\ProviderClientHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\Client\ProviderClientRequest;
+use App\Http\Resources\Manager\ProviderClient\ClientResource;
 use App\Models\ProviderClient;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\RedirectResponse;
 
 class ProviderClientsController extends Controller
 {
@@ -41,30 +44,16 @@ class ProviderClientsController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Manager/ProviderClients/Create');
+        return Inertia::render('Manager/ProviderClients/Create',[]);
     }
 
     /**
      * Сохранить нового клиента
      */
-    public function store(Request $request): RedirectResponse
+    public function store(ProviderClientRequest $request, ProviderClientHandler $handler): RedirectResponse
     {
-        $validated = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'contact_person' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:provider_clients',
-            'phone' => 'required|string|max:255',
-            'address' => 'nullable|string',
-            'inn' => 'nullable|string|max:20',
-            'kpp' => 'nullable|string|max:20',
-            'status' => 'required|in:active,inactive,blocked',
-            'notes' => 'nullable|string',
-        ]);
-
-        ProviderClient::create($validated);
-
-        return redirect()->route('manager.provider-clients.index')
-            ->with('success', 'Клиент провайдера успешно создан.');
+        $handler->handle($request->getDto());
+        return to_route('manager.provider-clients.index');
     }
 
     /**
@@ -72,6 +61,7 @@ class ProviderClientsController extends Controller
      */
     public function edit(ProviderClient $providerClient): Response
     {
+        $providerClient = ClientResource::make($providerClient)->resolve();
         return Inertia::render('Manager/ProviderClients/Edit', [
             'client' => $providerClient,
         ]);
@@ -80,22 +70,9 @@ class ProviderClientsController extends Controller
     /**
      * Обновить клиента
      */
-    public function update(Request $request, ProviderClient $providerClient): RedirectResponse
+    public function update(ProviderClientRequest $request, ProviderClientHandler $handler): RedirectResponse
     {
-        $validated = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'contact_person' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:provider_clients,email,' . $providerClient->id,
-            'phone' => 'required|string|max:255',
-            'address' => 'nullable|string',
-            'inn' => 'nullable|string|max:20',
-            'kpp' => 'nullable|string|max:20',
-            'status' => 'required|in:active,inactive,blocked',
-            'notes' => 'nullable|string',
-        ]);
-
-        $providerClient->update($validated);
-
+        $handler->handle($request->getDto());
         return redirect()->route('manager.provider-clients.index')
             ->with('success', 'Клиент провайдера успешно обновлен.');
     }

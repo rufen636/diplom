@@ -31,6 +31,7 @@ return new class extends Migration
             $table->text('other_conditions')->nullable(); // Прочие условия
             $table->text('signatures_block')->nullable(); // Блок подписей
             $table->json('clauses')->nullable();
+            $table->foreignId('detail_id')->constrained('company_details')->cascadeOnDelete();
             $table->timestamps();
         });
     }

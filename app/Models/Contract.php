@@ -96,5 +96,9 @@ class Contract extends Model
             default => 'bg-gray-100 text-gray-800',
         };
     }
+    public function providerClients(): BelongsToMany
+    {
+        return $this->belongsToMany(ProviderClient::class, 'client_contracts', 'contract_id', 'client_id');
+    }
 
 }
