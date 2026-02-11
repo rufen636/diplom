@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
- * @OA\Schema(
+ * @OA\Schema (
  *     schema="Tariff",
  *     title="Тариф",
  *     description="Модель тарифа",
@@ -20,6 +20,35 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time")
  * )
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property numeric $price
+ * @property int $speed
+ * @property int $duration_months
+ * @property bool $is_active
+ * @property int $sort_order
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff ordered()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereDurationMonths($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereSpeed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tariff whereUserId($value)
+ * @mixin \Eloquent
  */
 class Tariff extends Model
 {

@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('equipment_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug')->nullable()->unique();
+            $table->foreignId('parent_id')->nullable()->constrained('equipment_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

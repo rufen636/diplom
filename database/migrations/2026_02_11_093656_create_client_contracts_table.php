@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_from_one_s', function (Blueprint $table) {
+        Schema::create('client_contracts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('client_id')->constrained('provider_clients')->cascadeOnDelete();
+            $table->foreignId('contract_id')->constrained('contracts')->cascadeOnDelete();
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_from_one_s');
+        Schema::dropIfExists('client_contracts');
     }
 };

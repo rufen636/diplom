@@ -7,6 +7,9 @@ use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+    protected $except = [
+        'login'
+    ];
     /**
      * The root template that is loaded on the first page visit.
      *

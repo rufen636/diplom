@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->decimal('price', 10, 2)->nullable();
+            $table->string('description')->nullable();
+            $table->string('mac_address')->nullable();
+            $table->string('ip_address')->nullable();
             $table->timestamps();
         });
     }

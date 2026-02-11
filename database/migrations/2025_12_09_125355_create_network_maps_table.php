@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('network_maps', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->boolean('is_available')->default(false);
             $table->timestamps();
         });
     }
