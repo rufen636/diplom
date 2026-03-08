@@ -75,10 +75,10 @@
             </div>
 
             <div class="card">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between gap-2">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Общая сумма</p>
-                        <p class="text-2xl font-bold text-[#B75D5D] mt-2">{{ formatCurrency(stats.totalAmount) }}</p>
+                        <p class="text-sm font-bold text-[#B75D5D] mt-10">{{ formatCurrency(stats.totalAmount) }}</p>
                     </div>
                     <div class="w-12 h-12 bg-[#B75D5D] bg-opacity-10 rounded-full flex items-center justify-center">
                         <svg class="w-6 h-6 text-[#B75D5D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">

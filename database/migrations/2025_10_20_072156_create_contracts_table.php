@@ -20,8 +20,10 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('amount', 15, 2);
-            $table->enum('status', ['active', 'completed', 'terminated'])->default('active');
+            $table->enum('status', ['active', 'completed', 'terminated','pending'])->default('active');
+            $table->enum('payment_status', ['paid', 'not_paid', 'pending','billing_issued'])->default('active');
             $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
+            $table->foreignId('sample_id')->nullable()->constrained('sample_contracts')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->timestamps();
         });

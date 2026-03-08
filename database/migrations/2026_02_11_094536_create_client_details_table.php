@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained('provider_clients')->cascadeOnDelete();
             $table->string('full_name');
             $table->string('legal_address')->nullable();
+            $table->string('inn')->nullable();
+            $table->string('kpp')->nullable();
             $table->string('actual_address');
-            $table->string('phone');
-            $table->string('email')->nullable();
             $table->string('bank_details')->nullable();
-            $table->enum('doc_type',['resident card','passport','other'])->default('passport');
+            $table->enum('doc_type',['resident_card','passport','other'])->nullable();
             $table->string('identity_number')->nullable();
             $table->timestamps();
         });

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Manager\ProviderController;
+use App\Http\Controllers\Manager\SampleContractController;
 use App\Http\Controllers\Manager\ServiceRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Manager\DashboardController;
@@ -46,8 +48,9 @@ Route::group([
 
     // Управление клиентами провайдера
     Route::resource('/provider-clients', ProviderClientsController::class);
-    Route::resource('/requests', ServiceRequestController::class);
-
+    Route::resource('/service-requests', ServiceRequestController::class);
+    Route::patch('/provider-details',[ProviderController::class,'updateDetails'])->name('provider.details');
+    Route::resource('sample-contracts', SampleContractController::class);
     // Настройки
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');

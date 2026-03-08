@@ -6,7 +6,7 @@ use App\DTO\Manager\AbstractDto;
 use App\DTO\Manager\DtoInterface;
 use Illuminate\Support\Arr;
 
-final class CreateClientDto  implements DtoInterface
+final class ClientDto  implements DtoInterface
 {
     public  $id;
     public string $name;
@@ -20,6 +20,7 @@ final class CreateClientDto  implements DtoInterface
     public string $status;
     public string $notes;
     public int $user_id;
+    public array $client_details;
 
     /**
      * @param string $name
@@ -41,11 +42,10 @@ final class CreateClientDto  implements DtoInterface
         string $phone,
         string $type,
         string $address,
-        string $inn,
-        string $kpp,
         string $status,
         string $notes,
-        int $user_id
+        int $user_id,
+        array $client_details
     )
     {
         $this->id = $id;
@@ -55,16 +55,16 @@ final class CreateClientDto  implements DtoInterface
         $this->phone = $phone;
         $this->type = $type;
         $this->address = $address;
-        $this->inn = $inn;
-        $this->kpp = $kpp;
         $this->status = $status;
         $this->notes = $notes;
         $this->user_id = $user_id;
+        $this->client_details = $client_details;
     }
 
     public static function fromArray(array $data): self
     {
         $id = Arr::get($data, 'id') ?? null;
+
         $object = new self(
             $id,
             Arr::get($data, 'name',[]),
@@ -73,11 +73,11 @@ final class CreateClientDto  implements DtoInterface
             Arr::get($data, 'phone',[]),
             Arr::get($data, 'type',[]),
             Arr::get($data, 'address',[]),
-            Arr::get($data, 'inn',[]),
-            Arr::get($data, 'kpp',[]),
             Arr::get($data, 'status',[]),
             Arr::get($data, 'notes',[]),
-            Arr::get($data, 'user_id',[])
+            Arr::get($data, 'user_id',[]),
+            Arr::get($data, 'client_details',[
+            ])
         );
         return $object;
     }

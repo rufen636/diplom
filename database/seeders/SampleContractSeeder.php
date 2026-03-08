@@ -22,7 +22,7 @@ class SampleContractSeeder extends Seeder
                 'is_default' => true,
                 'preamble' => 'Преамбула договора...',
                 'subject_of_contract' => 'Предмет договора...',
-                'rights_and_obligations' => null,
+                'rights' => null,
                 'payment_terms' => 'Условия оплаты...',
                 'liability' => null,
                 'force_majeure' => null,

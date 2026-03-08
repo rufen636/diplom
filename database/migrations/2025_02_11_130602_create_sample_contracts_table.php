@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('is_default')->default(false);
             $table->text('preamble')->nullable(); // Преамбула
             $table->text('subject_of_contract')->nullable(); // Предмет договора
-            $table->text('rights_and_obligations')->nullable();
+            $table->text('rights')->nullable();
             $table->text('payment_terms')->nullable(); // Условия оплаты
             $table->text('liability')->nullable(); // Ответственность сторон
             $table->text('force_majeure')->nullable(); // Форс-мажор
@@ -30,8 +30,8 @@ return new class extends Migration
             $table->text('confidentiality')->nullable(); // Конфиденциальность
             $table->text('other_conditions')->nullable(); // Прочие условия
             $table->text('signatures_block')->nullable(); // Блок подписей
+            $table->text('signature_image')->nullable();
             $table->json('clauses')->nullable();
-            $table->foreignId('detail_id')->constrained('company_details')->cascadeOnDelete();
             $table->timestamps();
         });
     }

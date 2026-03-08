@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Manager\Client;
 
-use App\DTO\Manager\ProviderClient\CreateClientDto;
+use App\DTO\Manager\ProviderClient\ClientDto;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,8 +31,17 @@ class ProviderClientRequest extends FormRequest
             'phone' => 'required|string',
             'type' => 'required|string',
             'address' => 'nullable|string',
-            'inn' => 'nullable|string',
-            'kpp' => 'nullable|string',
+            'client_details.*' => 'nullable|array',
+            'client_details.full_name'=> 'nullable|string',
+            'client_details.legal_address'=> 'nullable|string',
+            'client_details.inn'=> 'nullable|string',
+            'client_details.kpp'=> 'nullable|string',
+            'client_details.actual_address'=> 'nullable|string',
+            'client_details.phone'=> 'nullable|string',
+            'client_details.email'=> 'nullable|string',
+            'client_details.bank_details'=> 'nullable|string',
+            'client_details.doc_type'=> 'nullable|string',
+            'client_details.identity_number'=> 'nullable|string',
             'status' => 'required|string',
             'notes' => 'nullable|string',
         ];
@@ -46,8 +55,8 @@ class ProviderClientRequest extends FormRequest
             'user_id' => Auth::user()->id ?? 1,
         ]);
     }
-    public function getDto(): CreateClientDto
+    public function getDto(): ClientDto
     {
-        return  CreateClientDto::fromArray($this->validationData());
+        return  ClientDto::fromArray($this->validationData());
     }
 }

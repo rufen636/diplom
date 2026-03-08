@@ -8,6 +8,8 @@ use App\Http\Controllers\Manager\ContractsController;
 use App\Http\Controllers\Manager\TariffsController;
 use App\Http\Controllers\Manager\ProviderClientsController;
 use App\Http\Controllers\Manager\SettingsController;
+use App\Http\Resources\Manager\Provider\ProviderDetailResource;
+use App\Models\ProviderDetail;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;

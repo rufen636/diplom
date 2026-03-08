@@ -2,10 +2,10 @@
 
 namespace App\Handlers\Manager\Client;
 
-use App\DTO\Manager\ProviderClient\CreateClientDto;
+use App\DTO\Manager\ProviderClient\ClientDto;
 use App\Handlers\AbstractHandler;
 use App\Models\ProviderClient;
-use App\Services\Manager\ProviderClientService;
+use App\Services\Manager\Provider\ProviderClient\ProviderClientService;
 
 final class ProviderClientHandler extends AbstractHandler
 {
@@ -17,7 +17,7 @@ final class ProviderClientHandler extends AbstractHandler
         $this->providerClientService = $providerClientService;
     }
 
-    public function handle(CreateClientDto $dto): ProviderClient
+    public function handle(ClientDto $dto): ProviderClient
     {
         return $this->providerClientService->updateOrCreate($dto);
     }

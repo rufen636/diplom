@@ -151,10 +151,6 @@ const props = defineProps({
     filters: Object
 });
 
-const search = ref(props.filters.search || '');
-const statusFilter = ref(props.filters.status || '');
-const showDeleteModal = ref(false);
-const clientToDelete = ref(null);
 
 function handleSearch() {
     router.get(route('manager.provider-clients.index'), { search: search.value, status: statusFilter.value }, {
@@ -175,6 +171,10 @@ function confirmDelete(client) {
     showDeleteModal.value = true;
 }
 
+const search = ref(props.filters.search || '');
+const statusFilter = ref(props.filters.status || '');
+const showDeleteModal = ref(false);
+const clientToDelete = ref(null);
 function deleteClient() {
     if (clientToDelete.value) {
         router.delete(route('manager.provider-clients.destroy', clientToDelete.value.id), {
@@ -185,6 +185,7 @@ function deleteClient() {
         });
     }
 }
+
 
 function getStatusLabel(status) {
     const labels = {

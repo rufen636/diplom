@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Manager\ProviderClient;
 
+use App\Models\ClientDetail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,8 +23,7 @@ class ClientResource extends JsonResource
             'phone'=> $this->phone,
             'type'=> $this->type,
             'address'=> $this->address,
-            'inn'=> $this->inn,
-            'kpp'=> $this->kpp,
+            'client_details' => $this->detail ? ClientDetailResource::make($this->detail)->resolve() : null,
             'status'=> $this->status,
             'notes'=> $this->notes,
         ];

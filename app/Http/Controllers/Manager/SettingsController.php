@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Manager\Provider\ProviderDetailResource;
+use App\Models\ProviderDetail;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,6 +21,7 @@ class SettingsController extends Controller
             'phpVersion' => PHP_VERSION,
             'laravelVersion' => app()->version(),
             'environment' => config('app.env'),
+            'detail' => ProviderDetailResource::make(ProviderDetail::first())->resolve(),
         ]);
     }
 

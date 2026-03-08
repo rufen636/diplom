@@ -90,4 +90,8 @@ class ProviderClient extends Model
     {
         return $this->hasMany(Contract::class,'client_id','id');
     }
+    public function detail()
+    {
+        return $this->hasOne(ClientDetail::class,'client_id','id');
+    }
 }

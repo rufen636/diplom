@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->foreignId('service_id')->constrained()->cascadeOnDelete();
             $table->foreignId('client_id')->constrained('provider_clients')->cascadeOnDelete();
+            $table->foreignId('sample_contract_id')->constrained()->cascadeOnDelete();
+            $table->string('installation_address')->nullable();
             $table->enum('status', ['created', 'accepted', 'on_inspection'])->default('created');
             $table->timestamps();
         });
