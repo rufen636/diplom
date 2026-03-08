@@ -5,44 +5,77 @@
 
             <form @submit.prevent="storeClient">
                 <div class="space-y-4">
-                    <!-- Название компании -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Выберите тип клиента <span class="text-red-500">*</span>
-                        </label>
-                    </div>
-                    <select class="input-field" v-model="form.type">
-                        <option disabled>Не выбрано</option>
-                        <option value="person" selected>Физ. лицо</option>
-                        <option value="company">Юр. лицо</option>
-                    </select>
                     <div v-if="form.type === 'company'">
                         <div class="mb-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Название компании <span class="text-red-500">*</span>
+                                Название заявки <span class="text-red-500">*</span>
                             </label>
                             <input
                                 v-model="form.name"
                                 type="text"
                                 class="input-field"
-                                placeholder="ООО 'Пример'"
+                                placeholder="Заявка 1'"
                                 @change="sameName()"
                                 required
                             />
                         </div>
+                        <div class="mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Описание заявки <span class="text-red-500">*</span>
+                            </label>
+                            <textarea
+                                v-model="form.description"
+                                type="text"
+                                class="input-field"
+                                placeholder="Заявка 1'"
+                                @change="sameName()"
+                                required
+                            ></textarea>
+                        </div>
+                        <!-- Название компании -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Выберите шаблон даговора <span class="text-red-500">*</span>
+                            </label>
+                        </div>
+                        <select class="input-field" v-model="form.type">
+                            <option disabled>Не выбрано</option>
+                            <option value="person" selected>Физ. лицо</option>
+                            <option value="company">Юр. лицо</option>
+                        </select>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Выберите клиента <span class="text-red-500">*</span>
+                            </label>
+                        </div>
+                        <select class="input-field" v-model="form.type">
+                            <option disabled>Не выбрано</option>
+                            <option value="person" selected>Физ. лицо</option>
+                            <option value="company">Юр. лицо</option>
+                        </select>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Выберите услугу <span class="text-red-500">*</span>
+                            </label>
+                        </div>
+                        <select class="input-field" v-model="form.type">
+                            <option disabled>Не выбрано</option>
+                            <option value="person" selected>Физ. лицо</option>
+                            <option value="company">Юр. лицо</option>
+                        </select>
                         <!-- Контактное лицо -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Контактное лицо <span class="text-red-500">*</span>
+                                Выберите статус заявки <span class="text-red-500">*</span>
                             </label>
-                            <input
-                                v-model="form.contact_person"
-                                type="text"
-                                class="input-field"
-                                placeholder="Иванов Иван Иванович"
-                                required
-                            />
                         </div>
+                        <select class="input-field" v-model="form.type">
+                            <option disabled>Не выбрано</option>
+                            <option value="person" selected>Создана</option>
+                            <option value="company">Архив</option>
+                            <option value="person" selected>Принята</option>
+                            <option value="person" selected>На проверке</option>
+                        </select>
                     </div>
                     <div v-else-if="form.type === 'person'">
                         <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -262,10 +295,11 @@ import {reactive} from 'vue';
 import {router, Link, useForm} from '@inertiajs/vue3';
 import ManagerLayout from '@/Layouts/Manager/ManagerLayout.vue';
 import forms from "@tailwindcss/forms";
+import TextInput from "@/Components/TextInput.vue";
 
 export default {
     layout: ManagerLayout,
-    components: {ManagerLayout, Link},
+    components: {TextInput, ManagerLayout, Link},
     data() {
         return {
             form: useForm({
