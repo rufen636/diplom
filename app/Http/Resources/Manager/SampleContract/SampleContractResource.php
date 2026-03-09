@@ -20,6 +20,7 @@ class SampleContractResource extends JsonResource
     {
         $imageService = App::make(ImageService::class);
         return [
+            'id' => $this->id,
             'template_code' => $this->template_code,
             'name' => $this->name,
             'description' => $this->description,

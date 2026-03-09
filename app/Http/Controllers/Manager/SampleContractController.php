@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Manager;
 
-use App\Handlers\Manager\Client\ProviderClientHandler;
 use App\Handlers\Manager\SampleContract\SampleContractHandler;
+
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Manager\SampleConctract\IndexRequest;
+use App\Http\Requests\Manager\SampleContract\IndexRequest;
 use App\Http\Requests\Manager\SampleContract\SampleContractRequest;
-use App\Http\Resources\Manager\SampleContract\SampleContractCollection;
 use App\Http\Resources\Manager\SampleContract\SampleContractResource;
 use App\Models\SampleContract;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class SampleContractController extends Controller
@@ -31,7 +29,7 @@ class SampleContractController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SampleContractRequest $request,SampleContractHandler $handler)
+    public function store(SampleContractRequest $request, SampleContractHandler $handler)
     {
 
         $handler->handle($request->getDto());

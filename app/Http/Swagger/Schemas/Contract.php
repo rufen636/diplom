@@ -26,7 +26,7 @@ namespace App\Http\Swagger\Schemas;
 
 /**
  * @OA\Schema(
- *     schema="ContractRequest",
+ *     schema="ServiceRequestRequest",
  *     title="Запрос для договора",
  *     required={"contract_number", "title", "user_id", "start_date", "end_date", "amount", "status"},
  *     @OA\Property(property="contract_number", type="string", maxLength=255, example="ДГ-2024-001"),

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Manager\SampleContract;
 
 use App\DTO\Manager\ProviderClient\ClientDto;
 use App\DTO\Manager\SampleContract\SampleContractDto;
+use App\DTO\Manager\SampleContract\ServiceRequestDto;
 use App\Models\ProviderDetail;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;

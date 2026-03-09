@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Manager\SampleConctract;
+namespace App\Http\Requests\Manager\SampleContract;
 
 use Illuminate\Foundation\Http\FormRequest;
 
