@@ -16,4 +16,12 @@ class ServiceRequest extends Model
         $postFilter = new ServiceRequestFilter();
         return $postFilter->apply($data,$builder);
     }
+    public function providerClient()
+    {
+        return $this->belongsTo(ProviderClient::class,'client_id','id');
+    }
+    public function service()
+    {
+        return $this->belongsTo(Service::class,'service_id','id');
+    }
 }

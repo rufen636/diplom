@@ -7,6 +7,7 @@ use App\Http\Requests\Manager\ServiceRequest\ServiceRequestRequest;
 use App\Http\Resources\Manager\ProviderClient\ClientResource;
 use App\Http\Resources\Manager\SampleContract\SampleContractResource;
 use App\Http\Resources\Manager\Service\ServiceResource;
+use App\Http\Resources\Manager\ServiceRequest\ServiceRequestResource;
 use App\Models\ProviderClient;
 use App\Models\SampleContract;
 use App\Models\Service;
@@ -30,8 +31,8 @@ class ServiceRequestController extends Controller
      */
     public function index()
     {
-
-        return Inertia::render('Manager/ServiceRequest/Index', []);
+        $service_requests = ServiceRequestResource::collection(ServiceRequest::all())->resolve();
+        return Inertia::render('Manager/ServiceRequest/Index', ['service_requests'=>$service_requests]);
     }
 
     /**

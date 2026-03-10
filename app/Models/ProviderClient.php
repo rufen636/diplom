@@ -94,4 +94,8 @@ class ProviderClient extends Model
     {
         return $this->hasOne(ClientDetail::class,'client_id','id');
     }
+    public function serviceRequests(): HasMany
+    {
+        return $this->hasMany(ServiceRequest::class,'client_id','id');
+    }
 }

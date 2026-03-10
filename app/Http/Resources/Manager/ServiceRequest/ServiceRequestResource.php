@@ -19,6 +19,11 @@ class ServiceRequestResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
+            'service_id' => $this->service_id,
+            'client_id' => $this->client_id,
+            'sample_contract_id' => $this->sample_contract_id,
+            'installation_address' => $this->installation_address,
+            'client_name' => $this->providerClient->name ?? null,
         ];
     }
 }

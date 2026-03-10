@@ -15,14 +15,14 @@ class ProviderDetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'full_name'=> $this->full_name,
-            'legal_address'=> $this->legal_address,
-            'actual_address'=> $this->actual_address,
-            'phone'=> $this->phone,
-            'email'=> $this->email,
-            'bank_details'=> $this->bank_details,
-            'website'=> $this->website,
+            'id' => $this->id ?? null,
+            'full_name'=> $this->full_name ?? null,
+            'legal_address'=> $this->legal_address ?? null,
+            'actual_address'=> $this->actual_address ?? null,
+            'phone'=> $this->phone ?? null,
+            'email'=> $this->email ?? null,
+            'bank_details'=> $this->bank_details ?? null,
+            'website'=> $this->website ?? null,
         ];
     }
 }
