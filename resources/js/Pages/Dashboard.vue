@@ -1,6 +1,19 @@
-<script setup>
+<script >
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
+export default {
+    props:{
+        role: String,
+    },
+    components: {
+        AuthenticatedLayout,
+        Head,
+        Link,
+    },
+    mounted() {
+        // console.log(this.role)
+    }
+};
 </script>
 
 <template>
@@ -24,11 +37,27 @@ import { Head, Link } from '@inertiajs/vue3';
                         <div class="text-center">
                             <h3 class="text-2xl font-bold text-[#416081] mb-4">Добро пожаловать!</h3>
                             <p class="text-gray-600 mb-6">Вы успешно вошли в систему.</p>
+
                             <Link
                                 :href="route('manager.dashboard')"
                                 class="inline-block btn-primary"
+                                v-if="role === 'manager'"
                             >
                                 Перейти в панель менеджера
+                            </Link>
+                            <Link
+                                :href="route('sysadmin.dashboard')"
+                                class="inline-block btn-primary"
+                                v-else-if="role === 'sysadmin'"
+                            >
+                                Перейти в панель системного администратора
+                            </Link>
+                            <Link
+                                :href="route('accountant.dashboard')"
+                                class="inline-block btn-primary"
+                                v-else-if="role === 'buh'"
+                            >
+                                Перейти в панель бухгалтера
                             </Link>
                         </div>
                     </div>

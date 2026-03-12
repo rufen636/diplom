@@ -1,21 +1,15 @@
 <?php
 
-use App\Http\Controllers\Manager\ServiceRequestController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Manager\DashboardController;
-use App\Http\Controllers\Manager\UsersController;
-use App\Http\Controllers\Manager\ContractsController;
-use App\Http\Controllers\Manager\TariffsController;
-use App\Http\Controllers\Manager\ProviderClientsController;
-use App\Http\Controllers\Manager\SettingsController;
+
+use App\Http\Controllers\Engineer\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // Роуты для менеджера
 Route::group([
-    'prefix' => 'manager',
-    'as' => 'manager.',
+    'prefix' => 'sysadmin',
+    'as' => 'sysadmin.',
     'middleware' => ['auth', 'verified', 'role:sysadmin']
 ], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

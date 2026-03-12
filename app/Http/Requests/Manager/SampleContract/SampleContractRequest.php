@@ -55,7 +55,7 @@ class SampleContractRequest extends FormRequest
 
         return $this->merge([
             ...$client,
-            'detail_id' => ProviderDetail::first()->value('id'),
+            'detail_id' => ProviderDetail::first() ? ProviderDetail::first()->value('id') : null,
         ]);
     }
     public function getDto(): SampleContractDto

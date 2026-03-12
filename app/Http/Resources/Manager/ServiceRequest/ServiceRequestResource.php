@@ -24,6 +24,7 @@ class ServiceRequestResource extends JsonResource
             'sample_contract_id' => $this->sample_contract_id,
             'installation_address' => $this->installation_address,
             'client_name' => $this->providerClient->name ?? null,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

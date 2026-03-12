@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             ServicesSeeder::class,
             TariffSeeder::class,
             ProviderClientSeeder::class,
+            ProviderDetailSeeder::class,
             ContractSeeder::class,
             BillingSeeder::class,
             ClientRequestSeeder::class,

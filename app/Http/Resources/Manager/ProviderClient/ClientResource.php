@@ -26,6 +26,7 @@ class ClientResource extends JsonResource
             'client_details' => $this->detail ? ClientDetailResource::make($this->detail)->resolve() : null,
             'status'=> $this->status,
             'notes'=> $this->notes,
+
         ];
     }
 }

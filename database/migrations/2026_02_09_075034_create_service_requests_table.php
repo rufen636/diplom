@@ -20,6 +20,9 @@ return new class extends Migration
             $table->foreignId('sample_contract_id')->constrained()->cascadeOnDelete();
             $table->string('installation_address')->nullable();
             $table->enum('status', ['created', 'accepted', 'on_inspection','archived'])->default('created');
+            $table->foreignId('equipment_id')->nullable()->constrained('equipment');
+            $table->foreignId('assigned_by')->nullable()->constrained('users'); // sysadmin
+            $table->timestamp('assigned_at')->nullable();
             $table->timestamps();
         });
     }

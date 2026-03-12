@@ -14,8 +14,8 @@ use Inertia\Inertia;
 
 // Роуты для менеджера
 Route::group([
-    'prefix' => 'manager',
-    'as' => 'manager.',
+    'prefix' => 'accountant',
+    'as' => 'accountant.',
     'middleware' => ['auth', 'verified', 'role:buh']
 ], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

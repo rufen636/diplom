@@ -2,6 +2,7 @@
 
 namespace App\Services\Manager\SampleContract;
 
+use App\DTO\Manager\SampleContract\SampleContractDto;
 use App\DTO\Manager\SampleContract\ServiceRequestDto;
 use App\Http\Responses\ApiErrorResponse;
 use App\Models\SampleContract;
@@ -21,7 +22,7 @@ class SampleContractService
         $this->saveImageService = $saveImageService;
     }
 
-    public function updateOrCreate(ServiceRequestDto $dto)
+    public function updateOrCreate(SampleContractDto $dto)
     {
         try {
             DB::beginTransaction();

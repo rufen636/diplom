@@ -25,6 +25,11 @@ class SampleContractController extends Controller
         }
         return Inertia::render('Manager/SampleContract/Index', ['sampleContracts' => $sampleContracts]);
     }
+    public function edit(SampleContract $sampleContract)
+    {
+        $sampleContract = SampleContractResource::make($sampleContract)->resolve();
+        return Inertia::render('Manager/SampleContract/Edit', ['sampleContract' => $sampleContract]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -53,8 +58,9 @@ class SampleContractController extends Controller
      */
     public function update(SampleContractRequest $request, SampleContractHandler $handler)
     {
+//        dd($request->validated());
         $handler->handle($request->getDto());
-        return redirect()->route('manager.sample-contract.index');
+        return redirect()->route('manager.sample-contracts.index');
     }
 
     /**

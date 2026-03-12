@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manager;
 use App\Handlers\Manager\ServiceRequest\ServiceRequestHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\ServiceRequest\IndexRequest;
 use App\Http\Requests\Manager\ServiceRequest\ServiceRequestRequest;
 use App\Http\Resources\Manager\ProviderClient\ClientResource;
 use App\Http\Resources\Manager\SampleContract\SampleContractResource;
@@ -29,10 +30,15 @@ class ServiceRequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $service_requests = ServiceRequestResource::collection(ServiceRequest::all())->resolve();
-        return Inertia::render('Manager/ServiceRequest/Index', ['service_requests'=>$service_requests]);
+        $data = $request->validationData();
+
+        $service_requests = ServiceRequestResource::collection(ServiceRequest::filter($data)->paginate($data['per_page'],'*','page',$data['page']));
+        if (\Illuminate\Support\Facades\Request::wantsJson()) {
+            return $service_requests;
+        }
+        return Inertia::render('Manager/ServiceRequest/Index', ['serviceRequests'=>$service_requests]);
     }
 
     /**

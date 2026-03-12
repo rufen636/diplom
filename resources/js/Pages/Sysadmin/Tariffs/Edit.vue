@@ -1,8 +1,8 @@
 <template>
-    <ManagerLayout title="Добавить тариф">
+    <ManagerLayout title="Редактировать тариф">
         <div class="max-w-2xl">
             <div class="card">
-                <h3 class="text-xl font-semibold text-gray-800 mb-6">Создать новый тариф</h3>
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">Редактировать тариф</h3>
 
                 <form @submit.prevent="submit">
                     <div class="space-y-4">
@@ -16,7 +16,6 @@
                                 type="text"
                                 class="input-field"
                                 :class="{ 'border-red-500': errors.name }"
-                                placeholder="Например: Базовый 100 Мбит/с"
                                 required
                             />
                             <p v-if="errors.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
@@ -32,7 +31,6 @@
                                 rows="3"
                                 class="input-field"
                                 :class="{ 'border-red-500': errors.description }"
-                                placeholder="Краткое описание тарифа..."
                             ></textarea>
                             <p v-if="errors.description" class="mt-1 text-sm text-red-600">{{ errors.description }}</p>
                         </div>
@@ -49,7 +47,6 @@
                                 min="0"
                                 class="input-field"
                                 :class="{ 'border-red-500': errors.price }"
-                                placeholder="500.00"
                                 required
                             />
                             <p v-if="errors.price" class="mt-1 text-sm text-red-600">{{ errors.price }}</p>
@@ -66,7 +63,6 @@
                                 min="1"
                                 class="input-field"
                                 :class="{ 'border-red-500': errors.speed }"
-                                placeholder="100"
                                 required
                             />
                             <p v-if="errors.speed" class="mt-1 text-sm text-red-600">{{ errors.speed }}</p>
@@ -83,7 +79,6 @@
                                 min="1"
                                 class="input-field"
                                 :class="{ 'border-red-500': errors.duration_months }"
-                                placeholder="1"
                                 required
                             />
                             <p v-if="errors.duration_months" class="mt-1 text-sm text-red-600">{{ errors.duration_months }}</p>
@@ -100,7 +95,6 @@
                                 min="0"
                                 class="input-field"
                                 :class="{ 'border-red-500': errors.sort_order }"
-                                placeholder="0"
                             />
                             <p v-if="errors.sort_order" class="mt-1 text-sm text-red-600">{{ errors.sort_order }}</p>
                         </div>
@@ -123,8 +117,8 @@
                         <Link :href="route('manager.tariffs.index')" class="btn-secondary">
                             Отмена
                         </Link>
-                        <button type="submit" class="btn-primary">
-                            {{ 'Создать тариф' }}
+                        <button type="submit" class="btn-primary" :disabled="processing">
+                            {{ processing ? 'Сохранение...' : 'Сохранить изменения' }}
                         </button>
                     </div>
                 </form>
@@ -138,25 +132,26 @@ import { reactive } from 'vue';
 import { router, Link, useForm } from '@inertiajs/vue3';
 import ManagerLayout from '@/Layouts/Manager/ManagerLayout.vue';
 
-const form = useForm({
-    name: '',
-    description: '',
-    price: '',
-    speed: '',
-    duration_months: 1,
-    is_active: true,
-    sort_order: 0
+const props = defineProps({
+    tariff: Object,
+    errors: Object
 });
 
-const props = defineProps({
-    errors: Object
+const form = useForm({
+    name: props.tariff.name,
+    description: props.tariff.description,
+    price: props.tariff.price,
+    speed: props.tariff.speed,
+    duration_months: props.tariff.duration_months,
+    is_active: props.tariff.is_active,
+    sort_order: props.tariff.sort_order
 });
 
 const processing = reactive({ value: false });
 
 function submit() {
     processing.value = true;
-    form.post(route('manager.tariffs.store'), {
+    form.put(route('manager.tariffs.update', props.tariff.id), {
         onFinish: () => {
             processing.value = false;
         }

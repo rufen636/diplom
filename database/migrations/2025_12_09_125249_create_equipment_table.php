@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('mac_address')->nullable();
             $table->string('ip_address')->nullable();
+            $table->foreignId('network_map_id')->nullable()->constrained('network_maps');
             $table->timestamps();
         });
     }
