@@ -1,7 +1,12 @@
 <?php
 
 
-use App\Http\Controllers\Engineer\DashboardController;
+use App\Http\Controllers\Manager\SettingsController;
+use App\Http\Controllers\Manager\UsersController;
+use App\Http\Controllers\Sysadmin\DashboardController;
+use App\Http\Controllers\Sysadmin\EquipmentController;
+use App\Http\Controllers\Sysadmin\NetworkMapController;
+use App\Http\Controllers\Sysadmin\ServiceRequestController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,25 +27,25 @@ Route::group([
     Route::put('/users/{user}', [UsersController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
 
-    // Управление договорами
-    Route::get('/contracts', [ContractsController::class, 'index'])->name('contracts.index');
-    Route::get('/contracts/create', [ContractsController::class, 'create'])->name('contracts.create');
-    Route::post('/contracts', [ContractsController::class, 'store'])->name('contracts.store');
-    Route::get('/contracts/{contract}/edit', [ContractsController::class, 'edit'])->name('contracts.edit');
-    Route::put('/contracts/{contract}', [ContractsController::class, 'update'])->name('contracts.update');
-    Route::delete('/contracts/{contract}', [ContractsController::class, 'destroy'])->name('contracts.destroy');
+    // Заявки на проверке
+    Route::get('/service-requests', [ServiceRequestController::class, 'index'])->name('service-requests.index');
+    Route::get('/service-requests/{serviceRequest}', [ServiceRequestController::class, 'show'])->name('service-requests.show');
+    Route::patch('/service-requests/{serviceRequest}/status', [ServiceRequestController::class, 'updateStatus'])->name('service-requests.update-status');
+    Route::post('/service-requests/{serviceRequest}/check-coverage', [ServiceRequestController::class, 'checkCoverage'])->name('service-requests.check-coverage');
+    Route::post('/service-requests/{serviceRequest}/assign-equipment', [ServiceRequestController::class, 'assignEquipment'])->name('service-requests.assign-equipment');
+    Route::get('/service-requests/{serviceRequest}/equipment-options', [ServiceRequestController::class, 'getEquipmentOptions'])->name('service-requests.equipment-options');
 
-    // Управление тарифами
-    Route::get('/tariffs', [TariffsController::class, 'index'])->name('tariffs.index');
-    Route::get('/tariffs/create', [TariffsController::class, 'create'])->name('tariffs.create');
-    Route::post('/tariffs', [TariffsController::class, 'store'])->name('tariffs.store');
-    Route::get('/tariffs/{tariff}/edit', [TariffsController::class, 'edit'])->name('tariffs.edit');
-    Route::put('/tariffs/{tariff}', [TariffsController::class, 'update'])->name('tariffs.update');
-    Route::delete('/tariffs/{tariff}', [TariffsController::class, 'destroy'])->name('tariffs.destroy');
+    // Карта покрытия
+    Route::get('/network-map', [NetworkMapController::class, 'index'])->name('network-map.index');
+    Route::post('/check-coverage-by-address', [NetworkMapController::class, 'checkCoverageByAddress'])->name('check-coverage-by-address');
+    Route::get('/network-map/{node}/details', [NetworkMapController::class, 'getNodeDetails'])->name('network-map.details');
 
-    // Управление клиентами провайдера
-    Route::resource('/provider-clients', ProviderClientsController::class);
-    Route::resource('/requests', ServiceRequestController::class);
+    // Оборудование
+    Route::get('/equipment', [EquipmentController::class, 'index'])->name('equipment.index');
+    Route::get('/equipment/create', [EquipmentController::class, 'create'])->name('equipment.create');
+    Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
+    Route::get('/equipment/for-node/{node}', [EquipmentController::class, 'getForNode'])->name('equipment.for-node');
+    Route::post('/equipment/{equipment}/toggle-active', [EquipmentController::class, 'toggleActive'])->name('equipment.toggle-active');
     // Настройки
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');

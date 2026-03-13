@@ -17,6 +17,11 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->boolean('is_available')->default(false);
+            $table->string('address')->nullable();
+            $table->decimal('coverage_radius', 5, 2)->default(10);
+            $table->json('technical_info')->nullable();
+            $table->integer('capacity')->nullable();
+            $table->integer('current_load')->default(0);
             $table->timestamps();
         });
     }

@@ -24,4 +24,23 @@ class ServiceRequest extends Model
     {
         return $this->belongsTo(Service::class,'service_id','id');
     }
+    public function equipments()
+    {
+        return $this->belongsToMany(Equipment::class, 'service_request_equipment');
+    }
+
+    public function assignedBy()
+    {
+        return $this->belongsTo(User::class, 'assigned_by');
+    }
+
+    public function scopeOnInspection($query)
+    {
+        return $query->where('status', 'on_inspection');
+    }
+
+    public function scopeWithEquipmentAssigned($query)
+    {
+        return $query->where('status', 'equipment_assigned');
+    }
 }

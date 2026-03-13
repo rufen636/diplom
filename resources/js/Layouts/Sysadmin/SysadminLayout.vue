@@ -6,7 +6,7 @@
             <div class="flex flex-col h-full">
                 <!-- Logo -->
                 <div class="flex items-center justify-center h-16 bg-[#416081]">
-                    <h1 class="text-white text-xl font-bold">Бухгалтер</h1>
+                    <h1 class="text-white text-xl font-bold">Админ</h1>
                 </div>
 
                 <!-- Navigation -->
@@ -22,20 +22,20 @@
                         Dashboard
                     </Link>
 
+<!--                    <Link-->
+<!--                        :href="route('sysadmin.users.index')"-->
+<!--                        class="nav-link"-->
+<!--                        :class="{ active: $page.url.startsWith('/sysadmin/users') }"-->
+<!--                    >-->
+<!--                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+<!--                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />-->
+<!--                        </svg>-->
+<!--                        Пользователи-->
+<!--                    </Link>-->
                     <Link
-                        :href="route('sysadmin.users.index')"
+                        :href="route('sysadmin.service-requests.index')"
                         class="nav-link"
-                        :class="{ active: $page.url.startsWith('/sysadmin/users') }"
-                    >
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                        Пользователи
-                    </Link>
-                    <Link
-                        :href="route('sysadmin.requests.index')"
-                        class="nav-link"
-                        :class="{ active: $page.url.startsWith('/sysadmin/requests') }"
+                        :class="{ active: $page.url.startsWith('/sysadmin/service-requests') }"
                     >
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -44,9 +44,9 @@
                     </Link>
 
                     <Link
-                        :href="route('sysadmin.tariffs.index')"
+                        :href="route('sysadmin.network-map.index')"
                         class="nav-link"
-                        :class="{ active: $page.url.startsWith('/sysadmin/tariffs') }"
+                        :class="{ active: $page.url.startsWith('/sysadmin/network-map') }"
                     >
                         <svg class="w-5 h-5 mr-3" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 6H12.01M9 20L3 17V4L5 5M9 20L15 17M9 20V14M15 17L21 20V7L19 6M15 17V14M15 6.2C15 7.96731 13.5 9.4 12 11C10.5 9.4 9 7.96731 9 6.2C9 4.43269 10.3431 3 12 3C13.6569 3 15 4.43269 15 6.2Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -55,9 +55,9 @@
                     </Link>
 
                     <Link
-                        :href="route('sysadmin.provider-clients.index')"
+                        :href="route('sysadmin.equipment.index')"
                         class="nav-link"
-                        :class="{ active: $page.url.startsWith('/sysadmin/provider-clients') }"
+                        :class="{ active: $page.url.startsWith('/sysadmin/equipment') }"
                     >
                         <svg  fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="router-5" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color w-5 h-5 mr-3"><path id="primary" d="M5,9H19a1,1,0,0,1,1,1V20a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V10A1,1,0,0,1,5,9ZM8,4V9" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><line id="secondary" x1="14" y1="13" x2="16" y2="13" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><line id="secondary-upstroke" x1="8.05" y1="3.5" x2="7.95" y2="3.5" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line></svg>
                         Оборудование

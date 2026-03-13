@@ -25,6 +25,14 @@ class ServiceRequestResource extends JsonResource
             'installation_address' => $this->installation_address,
             'client_name' => $this->providerClient->name ?? null,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'equipments' => $this->whenLoaded('equipments', fn () => $this->equipments->map(fn ($e) => [
+                'id' => $e->id,
+                'name' => $e->name,
+            ])->toArray()),
+            'service' => $this->whenLoaded('service', fn () => $this->service ? [
+                'id' => $this->service->id,
+                'name' => $this->service->name,
+            ] : null),
         ];
     }
 }

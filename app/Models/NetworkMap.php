@@ -26,5 +26,24 @@ use Illuminate\Database\Eloquent\Model;
  */
 class NetworkMap extends Model
 {
-    //
+    protected $casts = [
+        'latitude' => 'float',
+        'longitude' => 'float',
+        'coverage_radius' => 'float',
+        'is_available' => 'boolean',
+        'technical_info' => 'array',
+        'capacity' => 'integer',
+        'current_load' => 'integer'
+    ];
+
+    public function getAvailableCapacityAttribute()
+    {
+        return ($this->capacity ?? 0) - $this->current_load;
+    }
+
+    public function getUtilizationPercentageAttribute()
+    {
+        if (!$this->capacity) return 0;
+        return round(($this->current_load / $this->capacity) * 100, 1);
+    }
 }
