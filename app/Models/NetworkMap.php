@@ -1,31 +1,26 @@
 <?php
+// app/Models/NetworkMap.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property int $id
- * @property string $name
- * @property string|null $latitude
- * @property string|null $longitude
- * @property int $is_available
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap whereIsAvailable($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap whereLatitude($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap whereLongitude($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NetworkMap whereUpdatedAt($value)
- * @mixin \Eloquent
- */
 class NetworkMap extends Model
 {
+    protected $table = 'network_maps';
+
+    protected $fillable = [
+        'name',
+        'latitude',
+        'longitude',
+        'is_available',
+        'address',
+        'coverage_radius',
+        'technical_info',
+        'capacity',
+        'current_load'
+    ];
+
     protected $casts = [
         'latitude' => 'float',
         'longitude' => 'float',
@@ -36,9 +31,11 @@ class NetworkMap extends Model
         'current_load' => 'integer'
     ];
 
+
+    // Аксессоры
     public function getAvailableCapacityAttribute()
     {
-        return ($this->capacity ?? 0) - $this->current_load;
+        return ($this->capacity ?? 0) - ($this->current_load ?? 0);
     }
 
     public function getUtilizationPercentageAttribute()

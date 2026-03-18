@@ -4,14 +4,18 @@ namespace App\Http\Controllers\Sysadmin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Manager\ServiceRequest\ServiceRequestResource;
+use App\Mail\RequestInspection;
+use App\Mail\RequestRejected;
 use App\Models\ServiceRequest;
 use App\Models\Equipment;
 use App\Models\NetworkMap;
 use App\Services\Sysadmin\CoverageCheckService;
 use App\Services\Sysadmin\ServiceRequestAssignmentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ServiceRequestController extends Controller
 {
@@ -81,9 +85,10 @@ class ServiceRequestController extends Controller
         $request->validate([
             'status' => 'required|in:on_inspection,accepted,rejected,archived',
         ]);
-
         $serviceRequest->update(['status' => $request->status]);
-
+        if ($request->status === "rejected") {
+            Mail::to($serviceRequest->providerClient->email)->send(new RequestRejected($serviceRequest->providerClient->email,$serviceRequest));
+        }
         if ($request->wantsJson()) {
             return response()->json(['success' => true]);
         }
