@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Manager;
 
-use App\Handlers\Manager\Client\ProviderClientHandler;
 use App\Handlers\Manager\SampleContract\SampleContractHandler;
+
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Manager\SampleConctract\IndexRequest;
+use App\Http\Requests\Manager\SampleContract\IndexRequest;
 use App\Http\Requests\Manager\SampleContract\SampleContractRequest;
-use App\Http\Resources\Manager\SampleContract\SampleContractCollection;
 use App\Http\Resources\Manager\SampleContract\SampleContractResource;
 use App\Models\SampleContract;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class SampleContractController extends Controller
@@ -27,11 +25,16 @@ class SampleContractController extends Controller
         }
         return Inertia::render('Manager/SampleContract/Index', ['sampleContracts' => $sampleContracts]);
     }
+    public function edit(SampleContract $sampleContract)
+    {
+        $sampleContract = SampleContractResource::make($sampleContract)->resolve();
+        return Inertia::render('Manager/SampleContract/Edit', ['sampleContract' => $sampleContract]);
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SampleContractRequest $request,SampleContractHandler $handler)
+    public function store(SampleContractRequest $request, SampleContractHandler $handler)
     {
 
         $handler->handle($request->getDto());
@@ -55,8 +58,9 @@ class SampleContractController extends Controller
      */
     public function update(SampleContractRequest $request, SampleContractHandler $handler)
     {
+//        dd($request->validated());
         $handler->handle($request->getDto());
-        return redirect()->route('manager.sample-contract.index');
+        return redirect()->route('manager.sample-contracts.index');
     }
 
     /**

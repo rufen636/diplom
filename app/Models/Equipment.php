@@ -28,8 +28,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Equipment extends Model
 {
+    protected $fillable = ['name', 'price', 'description', 'mac_address', 'ip_address'];
+
     public function services()
     {
-        return $this->belongsToMany(Service::class);
+        return $this->belongsToMany(Service::class, 'service_equipment');
+    }
+
+    public function serviceRequests()
+    {
+        return $this->belongsToMany(ServiceRequest::class, 'service_request_equipment');
     }
 }

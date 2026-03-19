@@ -60,7 +60,7 @@ class TariffsController extends Controller
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer',
         ]);
-
+        $validated['user_id'] = auth()->id();
         Tariff::create($validated);
 
         return redirect()->route('manager.tariffs.index')

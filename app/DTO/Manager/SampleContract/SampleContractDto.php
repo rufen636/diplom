@@ -39,7 +39,7 @@ final class SampleContractDto  implements DtoInterface
  * @param int $is_default
  * @param string $preamble
  * @param string $subject_of_contract
- * @param string $rights_and_obligations
+ * @param string $rights
  * @param string $payment_terms
  * @param int $liability
  * @param array $force_majeure

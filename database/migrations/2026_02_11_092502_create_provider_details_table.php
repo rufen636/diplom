@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('bank_details')->nullable();
             $table->string('website')->nullable();
+            $table->foreignId('provider_client_id')->constrained('provider_clients')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Manager;
-
+use App\Handlers\Manager\ServiceRequest\ServiceRequestHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\ServiceRequest\IndexRequest;
+use App\Http\Requests\Manager\ServiceRequest\ServiceRequestRequest;
 use App\Http\Resources\Manager\ProviderClient\ClientResource;
 use App\Http\Resources\Manager\SampleContract\SampleContractResource;
 use App\Http\Resources\Manager\Service\ServiceResource;
+use App\Http\Resources\Manager\ServiceRequest\ServiceRequestResource;
 use App\Models\ProviderClient;
 use App\Models\SampleContract;
 use App\Models\Service;
@@ -17,26 +20,33 @@ class ServiceRequestController extends Controller
 {
     public function create()
     {
-        $provider_clients = ClientResource::collection(ProviderClient::where('status','active')->get())->resolve();
+        $provider_clients_company = ClientResource::collection(ProviderClient::where('status','active')->where('type','company')->get())->resolve();
+        $provider_clients_person = ClientResource::collection(ProviderClient::where('status','active')->where('type','person')->get())->resolve();
         $services = ServiceResource::collection(Service::where('is_active',true)->get())->resolve();
-        $sample_contracts = SampleContractResource::collection(SampleContract::where('status','active')->get())->resolve();
-        return Inertia::render('Manager/ServiceRequest/Create',['provider_clients'=>$provider_clients,'services'=>$services,'sample_contracts'=>$sample_contracts]);
+        $sample_contracts_person = SampleContractResource::collection(SampleContract::where('status','active')->where('contract_type','individual')->get())->resolve();
+        $sample_contracts_company = SampleContractResource::collection(SampleContract::where('status','active')->where('contract_type','company')->get())->resolve();
+        return Inertia::render('Manager/ServiceRequest/Create',['provider_clients_person'=>$provider_clients_person,'provider_clients_company'=>$provider_clients_company,'services'=>$services,'sample_contracts_company'=>$sample_contracts_company,'sample_contracts_person'=>$sample_contracts_person]);
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
+        $data = $request->validationData();
 
-        return Inertia::render('Manager/ServiceRequest/Index', []);
+        $service_requests = ServiceRequestResource::collection(ServiceRequest::filter($data)->paginate($data['per_page'],'*','page',$data['page']));
+        if (\Illuminate\Support\Facades\Request::wantsJson()) {
+            return $service_requests;
+        }
+        return Inertia::render('Manager/ServiceRequest/Index', ['serviceRequests'=>$service_requests]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ServiceRequestRequest $request,ServiceRequestHandler $handler)
     {
-        //
+        $handler->handle($request->getDto());
     }
 
     /**

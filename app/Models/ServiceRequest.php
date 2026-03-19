@@ -16,4 +16,31 @@ class ServiceRequest extends Model
         $postFilter = new ServiceRequestFilter();
         return $postFilter->apply($data,$builder);
     }
+    public function providerClient()
+    {
+        return $this->belongsTo(ProviderClient::class,'client_id','id');
+    }
+    public function service()
+    {
+        return $this->belongsTo(Service::class,'service_id','id');
+    }
+    public function equipments()
+    {
+        return $this->belongsToMany(Equipment::class, 'service_request_equipment');
+    }
+
+    public function assignedBy()
+    {
+        return $this->belongsTo(User::class, 'assigned_by');
+    }
+
+    public function scopeOnInspection($query)
+    {
+        return $query->where('status', 'on_inspection');
+    }
+
+    public function scopeWithEquipmentAssigned($query)
+    {
+        return $query->where('status', 'equipment_assigned');
+    }
 }

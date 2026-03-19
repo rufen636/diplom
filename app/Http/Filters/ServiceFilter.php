@@ -2,8 +2,9 @@
 
 namespace App\Http\Filters;
 
-class ServiceFilter extends AbstractFilter
+use Illuminate\Database\Query\Builder;
 
+class ServiceFilter extends AbstractFilter
 {
 
 }

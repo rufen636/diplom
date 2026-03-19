@@ -1,4 +1,4 @@
-<template>
+s<template>
     <div class="signature-pad-container">
         <div class="border border-gray-300 rounded-lg overflow-hidden bg-white">
             <canvas

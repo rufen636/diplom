@@ -4,6 +4,7 @@ namespace App\Http\Requests\Manager\SampleContract;
 
 use App\DTO\Manager\ProviderClient\ClientDto;
 use App\DTO\Manager\SampleContract\SampleContractDto;
+use App\DTO\Manager\SampleContract\ServiceRequestDto;
 use App\Models\ProviderDetail;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,7 @@ class SampleContractRequest extends FormRequest
 
         return $this->merge([
             ...$client,
-            'detail_id' => ProviderDetail::first()->value('id'),
+            'detail_id' => ProviderDetail::first() ? ProviderDetail::first()->value('id') : null,
         ]);
     }
     public function getDto(): SampleContractDto

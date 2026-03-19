@@ -7,6 +7,6 @@ class Service extends Model
 {
     public function equipments()
     {
-        return $this->belongsToMany(Equipment::class);
+        return $this->belongsToMany(Equipment::class, 'service_equipment');
     }
 }

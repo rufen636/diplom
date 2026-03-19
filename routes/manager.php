@@ -50,7 +50,7 @@ Route::group([
     Route::resource('/provider-clients', ProviderClientsController::class);
     Route::resource('/service-requests', ServiceRequestController::class);
     Route::patch('/provider-details',[ProviderController::class,'updateDetails'])->name('provider.details');
-    Route::resource('sample-contracts', SampleContractController::class);
+    Route::resource('/sample-contracts', SampleContractController::class);
     // Настройки
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
