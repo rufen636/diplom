@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Sysadmin;
 
+use App\Handlers\Contract\GenerateContract;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Manager\ServiceRequest\ServiceRequestResource;
 use App\Mail\RequestInspection;
@@ -80,7 +81,7 @@ class ServiceRequestController extends Controller
     /**
      * Обновление статуса заявки
      */
-    public function updateStatus(Request $request, ServiceRequest $serviceRequest)
+    public function updateStatus(Request $request, ServiceRequest $serviceRequest,GenerateContract $handler)
     {
         $request->validate([
             'status' => 'required|in:on_inspection,accepted,rejected,archived',
@@ -88,6 +89,8 @@ class ServiceRequestController extends Controller
         $serviceRequest->update(['status' => $request->status]);
         if ($request->status === "rejected") {
             Mail::to($serviceRequest->providerClient->email)->send(new RequestRejected($serviceRequest->providerClient->email,$serviceRequest));
+        }elseif ($request->status === "accepted"){
+            $handler->generateFromSample($serviceRequest);
         }
         if ($request->wantsJson()) {
             return response()->json(['success' => true]);
