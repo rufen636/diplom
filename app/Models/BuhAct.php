@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -16,23 +17,33 @@ use Illuminate\Database\Eloquent\Model;
  * @property numeric $amount
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereActDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereActNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereActType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereClientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereContractId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BuhAct whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class BuhAct extends Model
 {
-    //
+    protected $fillable = [
+        'act_number',
+        'act_date',
+        'act_type',
+        'status',
+        'description',
+        'client_id',
+        'contract_id',
+        'amount',
+    ];
+
+    protected $casts = [
+        'act_date' => 'date',
+        'amount' => 'decimal:2',
+    ];
+
+    public function providerClient(): BelongsTo
+    {
+        return $this->belongsTo(ProviderClient::class, 'client_id', 'id');
+    }
+
+    public function contract(): BelongsTo
+    {
+        return $this->belongsTo(Contract::class);
+    }
 }

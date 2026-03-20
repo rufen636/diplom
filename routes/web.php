@@ -50,3 +50,4 @@ Route::put('/contracts/{contract}/dates', [ContractsController::class, 'updateDa
 require __DIR__.'/auth.php';
 require __DIR__.'/manager.php';
 require __DIR__ . '/sysadmin.php';
+require __DIR__ . '/accountant.php';

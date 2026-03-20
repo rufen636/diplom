@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -25,32 +26,57 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $service_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereAccountantId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereBillingDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereBillingNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereClientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereContractId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereDueDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereInvoiceUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing wherePaidDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing wherePeriodEnd($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing wherePeriodStart($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereServiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereTariffId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereTaxAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Billing whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Billing extends Model
 {
-    //
+    protected $fillable = [
+        'billing_number',
+        'amount',
+        'client_id',
+        'status',
+        'description',
+        'note',
+        'tax_amount',
+        'tariff_id',
+        'accountant_id',
+        'contract_id',
+        'billing_date',
+        'invoice_url',
+        'due_date',
+        'paid_date',
+        'period_start',
+        'period_end',
+        'service_id',
+    ];
+
+    protected $casts = [
+        'amount' => 'decimal:2',
+        'tax_amount' => 'decimal:2',
+        'billing_date' => 'date',
+        'due_date' => 'date',
+        'paid_date' => 'date',
+        'period_start' => 'date',
+        'period_end' => 'date',
+    ];
+
+    public function providerClient(): BelongsTo
+    {
+        return $this->belongsTo(ProviderClient::class, 'client_id', 'id');
+    }
+
+    public function contract(): BelongsTo
+    {
+        return $this->belongsTo(Contract::class);
+    }
+
+    public function tariff(): BelongsTo
+    {
+        return $this->belongsTo(Tariff::class);
+    }
+
+    public function accountant(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'accountant_id', 'id');
+    }
 }

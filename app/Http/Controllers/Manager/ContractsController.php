@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\ProviderClient;
+use App\Models\ProviderDetail;
+use App\Models\SampleContract;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ContractsController extends Controller
 {
@@ -77,12 +81,14 @@ class ContractsController extends Controller
      */
     public function edit(Contract $contract): Response
     {
-        $contract->load('user');
-        $clients = ProviderClient::where('status','active')->get();
+        $contract->load(['user', 'sampleContract']);
+        $clients = ProviderClient::where('status', 'active')->get();
+        $sampleContracts = SampleContract::where('status', 'active')->get(['id', 'name', 'contract_type']);
 
         return Inertia::render('Manager/Contracts/Edit', [
             'contract' => $contract,
             'clients' => $clients,
+            'sampleContracts' => $sampleContracts,
         ]);
     }
 
@@ -95,6 +101,7 @@ class ContractsController extends Controller
             'contract_number' => 'required|string|max:255|unique:contracts,contract_number,' . $contract->id,
             'title' => 'required|string|max:255',
             'client_id' => 'required|numeric',
+            'sample_id' => 'nullable|exists:sample_contracts,id',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'amount' => 'required|numeric|min:0',
@@ -102,6 +109,7 @@ class ContractsController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        $validated['sample_id'] = !empty($validated['sample_id']) ? $validated['sample_id'] : null;
         $contract->update($validated);
 
         return redirect()->route('manager.contracts.index')
@@ -131,6 +139,26 @@ class ContractsController extends Controller
 
         return redirect()->route('manager.contracts.index')
             ->with('success', 'Договор успешно удален.');
+    }
+
+    /**
+     * Сгенерировать PDF договора из шаблона SampleContract и данных Contract
+     */
+    /**
+     * Сгенерировать PDF договора из шаблона SampleContract и данных Contract
+     */
+    public function generatePdf(Contract $contract): \Illuminate\Http\Response
+    {
+        $contract->load(['providerClient.detail', 'sampleContract']);
+
+        $organization = ProviderDetail::with('providerClient')->first();
+
+        $pdf = Pdf::loadView('contract_pdf', [
+            'contract' => $contract,
+            'organization' => $organization,
+        ]);
+
+        return $pdf->stream('contract-' . $contract->id . '.pdf');
     }
 }
 

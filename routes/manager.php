@@ -37,6 +37,7 @@ Route::group([
     Route::get('/contracts/{contract}/edit', [ContractsController::class, 'edit'])->name('contracts.edit');
     Route::put('/contracts/{contract}', [ContractsController::class, 'update'])->name('contracts.update');
     Route::delete('/contracts/{contract}', [ContractsController::class, 'destroy'])->name('contracts.destroy');
+    Route::get('/contracts/{contract}/pdf', [ContractsController::class, 'generatePdf'])->name('contracts.pdf');
 
     // Управление тарифами
     Route::get('/tariffs', [TariffsController::class, 'index'])->name('tariffs.index');

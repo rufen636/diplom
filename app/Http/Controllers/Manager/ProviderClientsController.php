@@ -62,7 +62,6 @@ class ProviderClientsController extends Controller
     public function edit(ProviderClient $providerClient): Response
     {
         $providerClient = ClientResource::make($providerClient)->resolve();
-        dd($providerClient);
         return Inertia::render('Manager/ProviderClients/Edit', [
             'client' => $providerClient,
         ]);

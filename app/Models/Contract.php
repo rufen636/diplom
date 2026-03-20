@@ -50,6 +50,8 @@ class Contract extends Model
         'contract_number',
         'title',
         'user_id',
+        'client_id',
+        'sample_id',
         'start_date',
         'end_date',
         'amount',
@@ -103,6 +105,11 @@ class Contract extends Model
     public function equipments(): BelongsToMany
     {
         return $this->belongsToMany(Equipment::class, 'contract_equipments', 'contract_id', 'equipment_id');
+    }
+
+    public function sampleContract(): BelongsTo
+    {
+        return $this->belongsTo(SampleContract::class, 'sample_id', 'id');
     }
 
 }
