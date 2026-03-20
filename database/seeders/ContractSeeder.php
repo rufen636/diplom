@@ -40,7 +40,6 @@ class ContractSeeder extends Seeder
             [
                 'contract_number' => 'ДГ-2024-001',
                 'title' => 'Договор на разработку веб-сайта',
-                'user_id' => $users->random(),
                 'start_date' => now()->subMonths(2),
                 'end_date' => now()->addMonths(4),
                 'amount' => 500000.00,
@@ -54,7 +53,6 @@ class ContractSeeder extends Seeder
             [
                 'contract_number' => 'ДГ-2024-002',
                 'title' => 'Договор на техническую поддержку',
-                'user_id' => $users->random(),
                 'start_date' => now()->subMonths(6),
                 'end_date' => now()->addMonths(6),
                 'amount' => 300000.00,
@@ -68,7 +66,6 @@ class ContractSeeder extends Seeder
             [
                 'contract_number' => 'ДГ-2024-003',
                 'title' => 'Договор на разработку мобильного приложения',
-                'user_id' => $users->random(),
                 'start_date' => now()->subMonths(3),
                 'end_date' => now()->subDays(10),
                 'amount' => 800000.00,
@@ -83,7 +80,6 @@ class ContractSeeder extends Seeder
             [
                 'contract_number' => 'ДГ-2024-004',
                 'title' => 'Договор на дизайн-проектирование',
-                'user_id' => $users->random(),
                 'start_date' => now()->subMonths(1),
                 'end_date' => now()->addMonths(2),
                 'amount' => 250000.00,
@@ -97,7 +93,6 @@ class ContractSeeder extends Seeder
             [
                 'contract_number' => 'ДГ-2024-005',
                 'title' => 'Договор на консалтинг',
-                'user_id' => $users->random(),
                 'start_date' => now()->subMonths(4),
                 'end_date' => now()->subMonths(1),
                 'amount' => 150000.00,
@@ -111,7 +106,6 @@ class ContractSeeder extends Seeder
             [
                 'contract_number' => 'ДГ-2024-006',
                 'title' => 'Договор на интеграцию систем',
-                'user_id' => $users->random(),
                 'start_date' => now()->subDays(15),
                 'end_date' => now()->addMonths(3),
                 'amount' => 600000.00,
@@ -125,7 +119,6 @@ class ContractSeeder extends Seeder
             [
                 'contract_number' => 'ДГ-2024-007',
                 'title' => 'Договор на хостинг и серверы',
-                'user_id' => $users->random(),
                 'start_date' => now()->subMonths(12),
                 'end_date' => now()->addMonths(12),
                 'amount' => 180000.00,
@@ -139,7 +132,6 @@ class ContractSeeder extends Seeder
             [
                 'contract_number' => 'ДГ-2024-008',
                 'title' => 'Договор на SEO-оптимизацию',
-                'user_id' => $users->random(),
                 'start_date' => now()->subMonths(2),
                 'end_date' => now()->addMonths(4),
                 'amount' => 200000.00,

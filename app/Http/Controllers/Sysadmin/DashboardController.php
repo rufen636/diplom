@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $recentContracts = \App\Models\Contract::with('user')
             ->latest()
             ->take(5)
-            ->get(['id', 'contract_number', 'title', 'user_id', 'amount', 'status', 'created_at']);
+            ->get(['id', 'contract_number', 'title', 'amount', 'status', 'created_at']);
 
         return Inertia::render('Sysadmin/Dashboard', [
             'stats' => [

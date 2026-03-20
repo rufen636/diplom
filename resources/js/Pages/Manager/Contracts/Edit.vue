@@ -42,14 +42,14 @@
                                 Клиент *
                             </label>
                             <select
-                                v-model="form.user_id"
+                                v-model="form.client_id"
                                 class="input-field"
-                                :class="{ 'border-red-500': errors.user_id }"
+                                :class="{ 'border-red-500': errors.client_id }"
                                 required
                             >
                                 <option value="">Выберите клиента</option>
-                                <option v-for="user in users" :key="user.id" :value="user.id">
-                                    {{ user.name }} ({{ user.email }})
+                                <option v-for="client in clients" :key="client.id" :value="client.id">
+                                    {{ client.name }} ({{ client.email }})
                                 </option>
                             </select>
                             <p v-if="errors.user_id" class="mt-1 text-sm text-red-600">{{ errors.user_id }}</p>
@@ -114,8 +114,9 @@
                                 required
                             >
                                 <option value="active">Активный</option>
-                                <option value="completed">Завершен</option>
-                                <option value="terminated">Расторгнут</option>
+                                <option value="pending">В процессе</option>
+                                <option value="not_paid">Расторгнут</option>
+                                <option value="billing_issued">Выставлен счет</option>
                             </select>
                             <p v-if="errors.status" class="mt-1 text-sm text-red-600">{{ errors.status }}</p>
                         </div>
@@ -140,8 +141,8 @@
                         <Link :href="route('manager.contracts.index')" class="btn-secondary">
                             Отмена
                         </Link>
-                        <button type="submit" class="btn-primary" :disabled="processing">
-                            {{ processing ? 'Сохранение...' : 'Сохранить изменения' }}
+                        <button type="submit" class="btn-primary" >
+                            {{ 'Сохранить изменения' }}
                         </button>
                     </div>
                 </form>
@@ -157,14 +158,14 @@ import ManagerLayout from '@/Layouts/Manager/ManagerLayout.vue';
 
 const props = defineProps({
     contract: Object,
-    users: Array,
+    clients: Array,
     errors: Object
 });
 
 const form = useForm({
     contract_number: props.contract.contract_number,
     title: props.contract.title,
-    user_id: props.contract.user_id,
+    client_id: props.contract.client_id,
     start_date: props.contract.start_date,
     end_date: props.contract.end_date,
     amount: props.contract.amount,

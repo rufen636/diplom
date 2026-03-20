@@ -41,77 +41,80 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Номер договора
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Название
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Клиент
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Период
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Сумма
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Статус
-                            </th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Действия
-                            </th>
-                        </tr>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Номер договора
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Название
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Клиент
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Период
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Сумма
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Статус
+                        </th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Действия
+                        </th>
+                    </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="contract in contracts.data" :key="contract.id" class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-[#416081]">{{ contract.contract_number }}</div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-gray-900">{{ contract.title }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-[#4E89A5] flex items-center justify-center text-white text-xs font-semibold">
-                                        {{ contract.user.name.charAt(0).toUpperCase() }}
-                                    </div>
-                                    <div class="ml-3">
-                                        <div class="text-sm font-medium text-gray-900">{{ contract.user.name }}</div>
-                                        <div class="text-xs text-gray-500">{{ contract.user.email }}</div>
-                                    </div>
+                    <tr v-for="contract in contracts.data" :key="contract.id" class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-[#416081]">{{ contract.contract_number }}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-900">{{ contract.title }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div v-if="contract.provider_client" class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-[#4E89A5] flex items-center justify-center text-white text-xs font-semibold">
+                                    {{ contract.provider_client.name?.charAt(0).toUpperCase() || '?' }}
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">
-                                    {{ formatDate(contract.start_date) }} - {{ formatDate(contract.end_date) }}
+                                <div class="ml-3">
+                                    <div class="text-sm font-medium text-gray-900">{{ contract.provider_client.name || '-' }}</div>
+                                    <div class="text-xs text-gray-500">{{ contract.provider_client.email || '-' }}</div>
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-semibold text-gray-900">{{ formatCurrency(contract.amount) }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            </div>
+                            <div v-else class="text-sm text-gray-500">
+                                Нет клиента
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">
+                                {{ formatDate(contract.start_date) }} - {{ formatDate(contract.end_date) }}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-semibold text-gray-900">{{ formatCurrency(contract.amount) }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                                 <span :class="getStatusColor(contract.status)" class="px-2 py-1 text-xs font-semibold rounded-full">
                                     {{ getStatusLabel(contract.status) }}
                                 </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <Link
-                                    :href="route('manager.contracts.edit', contract.id)"
-                                    class="text-[#4E89A5] hover:text-[#416081] mr-4"
-                                >
-                                    Редактировать
-                                </Link>
-                                <button
-                                    @click="confirmDelete(contract)"
-                                    class="text-[#B75D5D] hover:text-red-600"
-                                >
-                                    Удалить
-                                </button>
-                            </td>
-                        </tr>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <Link
+                                :href="route('manager.contracts.edit', contract.id)"
+                                class="text-[#4E89A5] hover:text-[#416081] mr-4"
+                            >
+                                Редактировать
+                            </Link>
+                            <button
+                                @click="confirmDelete(contract)"
+                                class="text-[#B75D5D] hover:text-red-600"
+                            >
+                                Удалить
+                            </button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -210,6 +213,7 @@ function deleteContract() {
 }
 
 function formatDate(dateString) {
+    if (!dateString) return '-';
     const date = new Date(dateString);
     return date.toLocaleDateString('ru-RU', {
         day: '2-digit',
@@ -219,6 +223,7 @@ function formatDate(dateString) {
 }
 
 function formatCurrency(amount) {
+    if (!amount) return '0 руб.';
     return new Intl.NumberFormat('ru-RU', {
         style: 'currency',
         currency: 'RUB'
@@ -243,4 +248,3 @@ function getStatusColor(status) {
     return colors[status] || 'bg-gray-100 text-gray-800';
 }
 </script>
-

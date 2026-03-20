@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ContractCreated;
+use App\Listeners\SendContractCreatedNotification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Vite::prefetch(concurrency: 3);
         Model::unguard();
+        Event::listen(
+            ContractCreated::class,        //
+         SendContractCreatedNotification::class,
+        );
 //        Model::preventLazyLoading(!$this->app->isProduction());
     }
 }

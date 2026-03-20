@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\ProviderClient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,14 +18,14 @@ class ContractsController extends Controller
      */
     public function index(Request $request): Response
     {
-        $contracts = Contract::with('user')
-            ->when($request->search, function ($query, $search) {
-                $query->where('contract_number', 'like', "%{$search}%")
-                    ->orWhere('title', 'like', "%{$search}%")
-                    ->orWhereHas('user', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%");
-                    });
-            })
+        $contracts = Contract::with('providerClient') // providerClient (единственное число)
+        ->when($request->search, function ($query, $search) {
+            $query->where('contract_number', 'like', "%{$search}%")
+                ->orWhere('title', 'like', "%{$search}%")
+                ->orWhereHas('providerClient', function ($q) use ($search) { // providerClient (единственное число)
+                    $q->where('name', 'like', "%{$search}%");
+                });
+        })
             ->when($request->status, function ($query, $status) {
                 $query->where('status', $status);
             })
@@ -37,14 +38,13 @@ class ContractsController extends Controller
             'filters' => $request->only(['search', 'status']),
         ]);
     }
-
     /**
      * Показать форму создания договора
      */
     public function create(): Response
     {
         $users = User::select('id', 'name', 'email')->get();
-        
+
         return Inertia::render('Manager/Contracts/Create', [
             'users' => $users,
         ]);
@@ -78,11 +78,11 @@ class ContractsController extends Controller
     public function edit(Contract $contract): Response
     {
         $contract->load('user');
-        $users = User::select('id', 'name', 'email')->get();
-        
+        $clients = ProviderClient::where('status','active')->get();
+
         return Inertia::render('Manager/Contracts/Edit', [
             'contract' => $contract,
-            'users' => $users,
+            'clients' => $clients,
         ]);
     }
 
@@ -94,11 +94,11 @@ class ContractsController extends Controller
         $validated = $request->validate([
             'contract_number' => 'required|string|max:255|unique:contracts,contract_number,' . $contract->id,
             'title' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
+            'client_id' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'amount' => 'required|numeric|min:0',
-            'status' => 'required|in:active,completed,terminated',
+            'status' => 'required|in:active,pending,not_paid,billing_issued',
             'description' => 'nullable|string',
         ]);
 
@@ -107,7 +107,21 @@ class ContractsController extends Controller
         return redirect()->route('manager.contracts.index')
             ->with('success', 'Договор успешно обновлен.');
     }
+    public function updateDates(Request $request, Contract $contract)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date'
+        ]);
 
+        $contract->update([
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => 'active'
+        ]);
+
+        return response()->json(['message' => 'Даты договора обновлены']);
+    }
     /**
      * Удалить договор
      */

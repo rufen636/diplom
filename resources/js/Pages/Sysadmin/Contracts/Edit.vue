@@ -140,8 +140,8 @@
                         <Link :href="route('manager.contracts.index')" class="btn-secondary">
                             Отмена
                         </Link>
-                        <button type="submit" class="btn-primary" :disabled="processing">
-                            {{ processing ? 'Сохранение...' : 'Сохранить изменения' }}
+                        <button type="submit" class="btn-primary" >
+                            {{ 'Сохранить изменения' }}
                         </button>
                     </div>
                 </form>

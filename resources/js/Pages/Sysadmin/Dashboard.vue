@@ -128,9 +128,6 @@
                                 <div class="text-sm text-gray-900">{{ contract.title }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">{{ contract.user.name }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-semibold text-gray-900">{{ formatCurrency(contract.amount) }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">

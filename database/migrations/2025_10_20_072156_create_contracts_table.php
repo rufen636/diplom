@@ -23,7 +23,6 @@ return new class extends Migration
             $table->enum('payment_status', ['paid', 'not_paid', 'pending','billing_issued'])->default('not_paid');
             $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
             $table->foreignId('sample_id')->nullable()->constrained('sample_contracts')->onDelete('cascade');
-            $table->foreignId('service_request_id')->nullable()->constrained('service_requests')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->timestamps();
         });

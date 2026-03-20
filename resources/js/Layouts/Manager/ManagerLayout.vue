@@ -144,6 +144,7 @@
             <header class="bg-white shadow-sm">
                 <div class="px-8 py-4">
                     <h2 class="text-2xl font-semibold text-gray-800">{{ title }}</h2>
+                    <NotificationsDropdown />
                 </div>
             </header>
 
@@ -158,6 +159,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { ref } from "vue";
+import NotificationsDropdown from "@/Components/NotificationsDropdown.vue";
 
 const isBtnActive = ref(false);
 
