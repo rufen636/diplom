@@ -11,7 +11,7 @@ export default {
         Link,
     },
     mounted() {
-        // console.log(this.role)
+        console.log(this.role)
     }
 };
 </script>

@@ -2,10 +2,8 @@
 
 namespace App\Handlers\Contract;
 
-use App\Events\ContractCreated;
 use App\Models\Contract;
 use App\Models\ServiceRequest;
-use Carbon\Carbon;
 
 class GenerateContract
 {
@@ -26,5 +24,6 @@ class GenerateContract
            'sample_id' => $serviceRequest->sample_id,
            'description' => $serviceRequest->description,
         ]);
+        return $contract;
     }
 }

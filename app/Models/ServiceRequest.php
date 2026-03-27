@@ -43,4 +43,8 @@ class ServiceRequest extends Model
     {
         return $query->where('status', 'equipment_assigned');
     }
+    public function contract()
+    {
+        return $this->hasOne(Contract::class, 'service_request_id', 'id');
+    }
 }

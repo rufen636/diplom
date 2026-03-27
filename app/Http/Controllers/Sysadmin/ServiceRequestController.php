@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers\Sysadmin;
 
+use App\Handlers\Contract\GenerateContract;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Manager\ServiceRequest\ServiceRequestResource;
+use App\Mail\PushForBuh;
+use App\Mail\RequestInspection;
+use App\Mail\RequestRejected;
 use App\Models\ServiceRequest;
 use App\Models\Equipment;
 use App\Models\NetworkMap;
+use App\Models\User;
 use App\Services\Sysadmin\CoverageCheckService;
 use App\Services\Sysadmin\ServiceRequestAssignmentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ServiceRequestController extends Controller
 {
@@ -76,14 +83,19 @@ class ServiceRequestController extends Controller
     /**
      * Обновление статуса заявки
      */
-    public function updateStatus(Request $request, ServiceRequest $serviceRequest)
+    public function updateStatus(Request $request, ServiceRequest $serviceRequest,GenerateContract $handler)
     {
         $request->validate([
             'status' => 'required|in:on_inspection,accepted,rejected,archived',
         ]);
-
         $serviceRequest->update(['status' => $request->status]);
-
+        if ($request->status === "rejected") {
+            Mail::to($serviceRequest->providerClient->email)->send(new RequestRejected($serviceRequest->providerClient->email,$serviceRequest));
+        }elseif ($request->status === "accepted"){
+            $contract = $handler->generateFromSample($serviceRequest);
+            $accountant = User::role('accountant')->first();
+            Mail::to($accountant)->send(new PushForBuh($accountant->mail,$contract));
+        }
         if ($request->wantsJson()) {
             return response()->json(['success' => true]);
         }

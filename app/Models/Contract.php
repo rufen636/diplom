@@ -111,5 +111,10 @@ class Contract extends Model
     {
         return $this->belongsTo(SampleContract::class, 'sample_id', 'id');
     }
+    public function serviceRequest()
+    {
+
+        return $this->belongsTo(ServiceRequest::class, 'id', 'service_request_id');
+    }
 
 }
