@@ -10,6 +10,8 @@ class ImageService
 {
     public function save($model, $image)
     {
+       $findImage = Image::where('imageable_id', $model->id)->where('imageable_type',  $model->getMorphClass())->first();
+       if(!$findImage){
         $image_path = Storage::disk('public')->put('/images', $image);
         Image::create([
             'imageable_type' => $model->getMorphClass(),
@@ -17,6 +19,7 @@ class ImageService
             'small_uri' => $image_path,
             'big_uri' => $image_path,
         ]);
+       }
     }
 
     public static function url($path)

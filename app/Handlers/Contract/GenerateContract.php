@@ -4,6 +4,7 @@ namespace App\Handlers\Contract;
 
 use App\Models\Contract;
 use App\Models\ServiceRequest;
+use Carbon\Carbon;
 
 class GenerateContract
 {
@@ -11,8 +12,8 @@ class GenerateContract
     {
         $contractTitle = 'Договор на оказание услуги: ' . $serviceRequest->service->name . ' для клиента ' . $serviceRequest->providerClient->name;
         $contractAmount = $serviceRequest->service->price + $serviceRequest->equipments->sum('price');
-        $contractNumber = Contract::first()->latest()->value('id') ?? 1;
-        $contractNumber = $contractNumber  .'/' . Carbon::now()->month .'-Д';
+        $contractNumber = Contract::latest()->value('id') ?? 1;
+        $contractNumber = ++$contractNumber  .'/' . Carbon::now()->month .'-Д';
         $contract = Contract::create([
            'contract_number' => $contractNumber,
            'title' => $contractTitle,
@@ -23,6 +24,7 @@ class GenerateContract
            'service_id' => $serviceRequest->service_id,
            'sample_id' => $serviceRequest->sample_id,
            'description' => $serviceRequest->description,
+            'service_request_id' => $serviceRequest->id
         ]);
         return $contract;
     }

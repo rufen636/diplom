@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Sysadmin;
 
+use App\Events\ContractCreated;
 use App\Handlers\Contract\GenerateContract;
+use App\Handlers\Contract\GenerateTransferAct;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Manager\ServiceRequest\ServiceRequestResource;
+use App\Listeners\SendContractCreatedNotification;
 use App\Mail\PushForBuh;
 use App\Mail\RequestInspection;
 use App\Mail\RequestRejected;
+use App\Models\ClientEquipment;
 use App\Models\ServiceRequest;
 use App\Models\Equipment;
 use App\Models\NetworkMap;
@@ -83,7 +87,7 @@ class ServiceRequestController extends Controller
     /**
      * Обновление статуса заявки
      */
-    public function updateStatus(Request $request, ServiceRequest $serviceRequest,GenerateContract $handler)
+    public function updateStatus(Request $request, ServiceRequest $serviceRequest,GenerateContract $handler,GenerateTransferAct $handlerAct)
     {
         $request->validate([
             'status' => 'required|in:on_inspection,accepted,rejected,archived',
@@ -93,8 +97,10 @@ class ServiceRequestController extends Controller
             Mail::to($serviceRequest->providerClient->email)->send(new RequestRejected($serviceRequest->providerClient->email,$serviceRequest));
         }elseif ($request->status === "accepted"){
             $contract = $handler->generateFromSample($serviceRequest);
-            $accountant = User::role('accountant')->first();
-            Mail::to($accountant)->send(new PushForBuh($accountant->mail,$contract));
+            ContractCreated::dispatch($contract);
+            $handlerAct->generate($contract);
+            $accountant = User::role('buh')->first();
+//            Mail::to($accountant)->send(new PushForBuh($accountant->mail,$contract));
         }
         if ($request->wantsJson()) {
             return response()->json(['success' => true]);
@@ -188,7 +194,6 @@ class ServiceRequestController extends Controller
             'equipment_ids.*' => 'exists:equipment,id',
             'notes' => 'nullable|string|max:500'
         ]);
-
         try {
             DB::beginTransaction();
 
@@ -199,7 +204,16 @@ class ServiceRequestController extends Controller
                 'status' => 'equipment_assigned',
                 'assignment_notes' => $request->notes
             ]);
-
+            foreach ($request->equipment_ids as $equipment_id) {
+                ClientEquipment::create([
+                    'equipment_id' => $equipment_id,
+                    'provider_client_id' => $serviceRequest->client_id,
+                    'status' => 'active',
+                ]);
+                Equipment::find($equipment_id)->update([
+                    'quantity' => $serviceRequest->quantity - 1,
+                ]);
+            }
             $this->assignmentService->notifyManager($serviceRequest);
 
             DB::commit();

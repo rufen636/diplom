@@ -69,7 +69,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
-import axios from 'axios';
 
 const isOpen = ref(false);
 const unreadCount = ref(0);
@@ -77,8 +76,9 @@ const notifications = ref([]);
 
 const fetchUnreadCount = async () => {
     try {
-        const response = await axios.get('/notifications/unread-count');
-        unreadCount.value = response.data.count;
+        const response = await fetch('/notifications/unread-count');
+        const data = await response.json();
+        unreadCount.value = data.count;
     } catch (error) {
         console.error('Error fetching unread count:', error);
     }
@@ -86,8 +86,9 @@ const fetchUnreadCount = async () => {
 
 const fetchRecentNotifications = async () => {
     try {
-        const response = await axios.get('/notifications/recent');
-        notifications.value = response.data;
+        const response = await fetch('/notifications/recent');
+        const data = await response.json();
+        notifications.value = data;
     } catch (error) {
         console.error('Error fetching notifications:', error);
     }
@@ -95,7 +96,7 @@ const fetchRecentNotifications = async () => {
 
 const markAsRead = async (id) => {
     try {
-        await axios.post(`/notifications/${id}/read`);
+        await fetch(`/notifications/${id}/read`, { method: 'POST' });
         await fetchUnreadCount();
         await fetchRecentNotifications();
     } catch (error) {
@@ -105,7 +106,7 @@ const markAsRead = async (id) => {
 
 const markAllAsRead = async () => {
     try {
-        await axios.post('/notifications/mark-all-read');
+        await fetch('/notifications/mark-all-read', { method: 'POST' });
         await fetchUnreadCount();
         await fetchRecentNotifications();
     } catch (error) {

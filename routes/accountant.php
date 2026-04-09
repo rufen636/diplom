@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Buh\BillingController;
 use App\Http\Controllers\Buh\ActController;
+use App\Http\Controllers\Manager\ContractsController;
+use App\Http\Controllers\Manager\TariffsController;
+use App\Http\Controllers\Manager\UsersController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -11,15 +14,6 @@ Route::group([
     'as' => 'accountant.',
     'middleware' => ['auth', 'verified', 'role:buh']
 ], function () {
-    Route::get('/dashboard', [\App\Http\Controllers\Buh\DashboardController::class, 'index'])->name('dashboard');
-
-
-    Route::get('/users', [UsersController::class, 'index'])->name('users.index');
-    Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
-    Route::post('/users', [UsersController::class, 'store'])->name('users.store');
-    Route::get('/users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{user}', [UsersController::class, 'update'])->name('users.update');
-    Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
 
     // Управление договорами
     Route::get('/contracts', [ContractsController::class, 'index'])->name('contracts.index');

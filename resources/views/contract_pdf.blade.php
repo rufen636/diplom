@@ -2,263 +2,387 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Договор {{ $contract->contract_number }}</title>
+    <title>Договор № {{ $contract->contract_number }}</title>
     <style>
-        body {
-            font-family: DejaVu Sans, sans-serif;
-            font-size: 11pt;
-            line-height: 1.4;
-            margin: 20mm;
-            color: #1a1a1a;
+        @page {
+            margin: 20mm 25mm 20mm 25mm;
+            @bottom-center {
+                content: "Страница " counter(page) " из " counter(pages);
+                font-size: 9pt;
+                color: #666;
+            }
         }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #000;
+            background: white;
+            position: relative;
+        }
+
+        .header-line {
+            border-top: 2px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 8px 0;
+            margin: 20px 0;
+            text-align: center;
+        }
+
         .contract-header {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 40px;
         }
+
         .contract-title {
+            font-size: 18pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .contract-number {
             font-size: 14pt;
             font-weight: bold;
             margin-bottom: 8px;
         }
-        .contract-number {
+
+        .contract-city-date {
             font-size: 12pt;
+            margin-bottom: 30px;
         }
-        .section {
-            margin-bottom: 14px;
+
+        .section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 30px 0 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #000;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, #000 70%, transparent 70%);
+        }
+
+        .clause {
+            margin-bottom: 12px;
             text-align: justify;
         }
-        h2 {
-            font-size: 11pt;
+
+        .clause-number {
             font-weight: bold;
-            margin: 16px 0 8px;
+            display: inline-block;
+            min-width: 25px;
+            vertical-align: top;
         }
-        .preamble {
-            margin-bottom: 16px;
+
+        .subclause {
+            margin: 8px 0 8px 30px;
+            text-align: justify;
         }
-        .signature-block {
-            margin-top: 32px;
-            font-size: 10pt;
-        }
-        .signature-block .party {
-            margin-bottom: 20px;
-        }
-        .signature-block .party-name {
+
+        .subclause-number {
             font-weight: bold;
-            margin-bottom: 4px;
+            display: inline-block;
+            min-width: 20px;
+            vertical-align: top;
         }
-        .signature-line {
-            margin-top: 24px;
+
+        .list-item {
+            margin: 6px 0 6px 40px;
+            text-align: justify;
         }
+
+        .list-number {
+            font-weight: bold;
+            display: inline-block;
+            min-width: 20px;
+            vertical-align: top;
+        }
+
         table.requisites {
             width: 100%;
             border-collapse: collapse;
-            margin: 8px 0;
+            margin: 15px 0;
+            font-size: 11pt;
         }
+
         table.requisites td {
-            padding: 2px 8px 2px 0;
+            padding: 4px 8px 4px 0;
             vertical-align: top;
+            border-bottom: 1px dotted #999;
+        }
+
+        table.requisites td:first-child {
+            width: 160px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .signature-block {
+            margin-top: 60px;
+            page-break-inside: avoid;
+        }
+
+        .signature-section {
+            margin-top: 40px;
+        }
+
+        .signature-title {
+            font-size: 13pt;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        .signature-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .signature-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .signature-line {
+            height: 25px;
+            border-bottom: 1px solid #000;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .signature-line::after {
+            content: '';
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            border-bottom: 1px solid #999;
+        }
+
+        .signature-label {
+            font-size: 11pt;
+            margin-top: 8px;
+        }
+
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 9pt;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .double-space {
+            margin-bottom: 24pt;
+        }
+
+        .caps {
+            font-variant: small-caps;
+            letter-spacing: 0.5px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        @media print {
+            body { margin: 0; }
+            .signature-row { page-break-inside: avoid; }
         }
     </style>
 </head>
 <body>
+
 @php
     use App\Helpers\NumToStr;
 
-    $sample = $contract->sampleContract;
     $client = $contract->providerClient;
     $detail = $client?->detail;
-    $org = $organization ?? null;
+    $serviceRequest = $contract->serviceRequest;
+    $sample = $contract->sampleContract;
+    $org = $organization;
 
-    // Определяем город из адреса (юр. адрес организации или клиента)
-    $city = '_____________';
-    if ($org?->legal_address) {
-        if (preg_match('/г\.\s*([^,\s]+)/u', $org->legal_address, $m)) {
-            $city = $m[1];
-        } elseif (preg_match('/^([^,]+)/u', $org->legal_address, $m)) {
-            $city = trim($m[1]);
-        }
+    $city = 'Минск';
+    if ($org?->legal_address && preg_match('/г\.\s*([^,\s]+)/u', $org->legal_address, $m)) {
+        $city = $m[1];
     }
-    if ($city === '_____________' && ($detail?->legal_address ?? $client?->address)) {
-        $addr = $detail?->legal_address ?? $client?->address;
-        if (preg_match('/г\.\s*([^,\s]+)/u', $addr, $m)) {
-            $city = $m[1];
-        }
-    }
-
-    $clientFullName = $detail?->full_name ?? $client?->name ?? '';
-    $clientLegalAddress = $detail?->legal_address ?? $client?->address ?? '';
-    $clientInn = $detail?->inn ?? $client?->inn ?? '';
-    $clientKpp = $detail?->kpp ?? $client?->kpp ?? '';
-    $clientInnKpp = trim(implode(' / ', array_filter([$clientInn, $clientKpp])), ' /');
-    $clientBankDetails = $detail?->bank_details ?? '';
-
-    $orgFullName = $org?->full_name ?? '';
-    $orgLegalAddress = $org?->legal_address ?? '';
-    $orgInn = $org?->providerClient?->inn ?? '';
-    $orgKpp = $org?->providerClient?->kpp ?? '';
-    $orgInnKpp = trim(implode(' / ', array_filter([$orgInn, $orgKpp])), ' /');
-    $orgBankDetails = $org?->bank_details ?? '';
-
-    $amount = (float) $contract->amount;
-    $amountFormatted = number_format($amount, 2, ',', ' ');
-    $amountWords = NumToStr::amountWordsOnly($amount);
 
     $months = ['', 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
     $startDate = $contract->start_date;
-    $endDate = $contract->end_date;
-    $startDateFormatted = $startDate ? '«' . $startDate->format('d') . '» ' . $months[(int)$startDate->format('n')] . ' ' . $startDate->format('Y') . ' г.' : '';
-    $endDateFormatted = $endDate ? '«' . $endDate->format('d') . '» ' . $months[(int)$endDate->format('n')] . ' ' . $endDate->format('Y') . ' г.' : '';
-    $contractDateFormatted = $startDate ? '«' . $startDate->format('d') . '» ' . $months[(int)$startDate->format('n')] . ' ' . $startDate->format('Y') . ' г.' : '"___" _________ 20__ г.';
+    $contractDate = $startDate ? '«' . $startDate->format('d') . '» ' . $months[(int)$startDate->format('n')] . ' ' . $startDate->format('Y') . ' г.' : '"___" _________ 20__ г.';
+
+    $clientName = $detail?->full_name ?? $client?->name ?? '';
+    $clientLegalAddress = $detail?->legal_address ?? $serviceRequest?->installation_address ?? '';
+    $clientInn = $detail?->inn ?? '';
+    $clientPhone = $detail?->phone ?? '';
+    $clientEmail = $detail?->email ?? '';
+
+    $orgName = $org?->full_name ?? 'ООО "Интернет-Провайдер"';
+    $orgLegalAddress = $org?->legal_address ?? 'г. Минск, ул. Примерная, д. 1';
+    $orgInn = $org?->providerClient?->inn ?? '123456789';
+    $orgPhone = $org?->phone ?? '+375 (17) 123-45-67';
+    $orgEmail = $org?->email ?? 'info@provider.by';
+
+    $serviceName = $contract->title ?? $serviceRequest?->title ?? 'Услуги доступа к сети Интернет';
+    $serviceAddress = $serviceRequest?->installation_address ?? $clientLegalAddress;
+    $amount = number_format((float) $contract->amount, 2, ',', ' ');
+    $amountWords = NumToStr::numToStr($contract->amount);
 
     $replacements = [
-        // Формат {{PLACEHOLDER}}
-        '{{CONTRACT_NUMBER}}' => $contract->contract_number ?? '',
-        '{{CONTRACT_TITLE}}' => $contract->title ?? '',
-        '{{CLIENT_NAME}}' => $client?->name ?? '',
-        '{{CLIENT_LEGAL_ADDRESS}}' => $clientLegalAddress,
-        '{{CLIENT_INN}}' => $clientInn,
-        '{{CLIENT_KPP}}' => $clientKpp,
-        '{{CLIENT_FULL_NAME}}' => $clientFullName,
-        '{{BANK_DETAILS}}' => $clientBankDetails,
-        '{{AMOUNT}}' => $amountFormatted . ' руб.',
-        '{{AMOUNT_WORDS}}' => $amountWords,
-        '{{START_DATE}}' => $contract->start_date?->format('d.m.Y') ?? '',
-        '{{END_DATE}}' => $contract->end_date?->format('d.m.Y') ?? '',
-        '{{ACTUAL_ADDRESS}}' => $detail?->actual_address ?? $client?->address ?? '',
-        '{{PHONE}}' => $detail?->phone ?? $client?->phone ?? '',
-        '{{EMAIL}}' => $detail?->email ?? $client?->email ?? '',
-        // Реквизиты организации (Исполнитель)
-        '{{ORG_FULL_NAME}}' => $orgFullName,
-        '{{ORG_LEGAL_ADDRESS}}' => $orgLegalAddress,
-        '{{ORG_INN_KPP}}' => $orgInnKpp,
-        '{{ORG_BANK_DETAILS}}' => $orgBankDetails,
-        // Реквизиты клиента (Заказчик)
-        '{{CLIENT_INN_KPP}}' => $clientInnKpp,
-        // Плейсхолдеры из сидов шаблонов [Плейсхолдер]
-        // Исполнитель = организация (ProviderDetail), Заказчик = клиент (ProviderClient + ClientDetail)
         '[Город]' => $city,
-        '[Полное имя]' => $orgFullName,
-        '[Полное наименование организации]' => $orgFullName,
-        '[Должность, ФИО]' => $client?->contact_person ?? '',
-        '[Устава/Доверенности]' => 'Устава',
-        '[Наименование]' => $clientFullName ?: $client?->name ?? '',
-        '________ (________________)' => $amountFormatted . ' (' . $amountWords . ')',
-        '________ (________________) рублей' => $amountFormatted . ' (' . $amountWords . ') рублей',
-        '«___» _________ 20__ г.' => $contractDateFormatted,
-        '«___» _________ 20__ г. по «___» _________ 20__ г.' => $startDateFormatted . ' по ' . $endDateFormatted,
-        'оказать услуги по __________________________________________________' => 'оказать услуги по ' . ($contract->title ?: $contract->description ?: '__________________________________________________'),
+        '[Дата]' => $contractDate,
+        '[Номер договора]' => $contract->contract_number,
+        '[Наименование услуги]' => $serviceName,
+        '[Адрес установки]' => $serviceAddress,
+        '[Сумма цифрами]' => $amount,
+        '[Сумма прописью]' => $amountWords,
+        '[ФИО клиента]' => $clientName,
+        '[Юридический адрес клиента]' => $clientLegalAddress,
+        '[ИНН клиента]' => $clientInn,
+        '[Телефон клиента]' => $clientPhone,
+        '[Email клиента]' => $clientEmail,
+        '[Наименование организации]' => $orgName,
+        '[Юридический адрес организации]' => $orgLegalAddress,
+        '[ИНН организации]' => $orgInn,
+        '[Телефон организации]' => $orgPhone,
+        '[Email организации]' => $orgEmail,
+        '[Скорость]' => '100 Мбит/с',
+        '[Абонентская плата]' => $amount,
     ];
 
-    // Доп. замены для блока подписей (Исполнитель / Заказчик)
-    $signReplacements = array_merge($replacements, [
-        'ИСПОЛНИТЕЛЬ:' => 'ИСПОЛНИТЕЛЬ:',
-    ]);
+    function replacePlaceholders($text, $replacements) {
+        foreach ($replacements as $key => $value) {
+            $text = str_replace($key, $value, $text);
+        }
+        return $text;
+    }
 @endphp
 
+<div class="header-line"></div>
+
 <div class="contract-header">
-    <div class="contract-title">Договор № {{ $contract->contract_number }}</div>
-    <div class="contract-number">{{ $contract->title }}</div>
+    <div class="contract-title">ДОГОВОР<br>НА ОКАЗАНИЕ УСЛУГ ДОСТУПА К СЕТИ ИНТЕРНЕТ</div>
+    <div class="contract-number">№ {{ $contract->contract_number }}</div>
+    <div class="contract-city-date">г. {{ $city }} «{{ $contractDate }}»</div>
 </div>
 
-@if($sample)
-    @if($sample->preamble)
-        @php
-            $preamble = str_replace(array_keys($replacements), array_values($replacements), $sample->preamble);
-            $longBlank = '__________________________________________________';
-            $shortBlank = '__________________________________';
-            $longCount = 0;
-            $preamble = preg_replace_callback(
-                '/' . preg_quote($longBlank, '/') . '|' . preg_quote($shortBlank, '/') . '/',
-                function ($m) use (&$longCount, $clientFullName, $client) {
-                    $isLong = strlen($m[0]) > 30;
-                    if ($isLong) {
-                        $longCount++;
-                        if ($longCount === 1) return $clientFullName ?: $client?->name ?? $m[0];
-                        if ($longCount === 2) return $client?->contact_person ?? $m[0];
-                    } else {
-                        return 'Устава';
-                    }
-                    return $m[0];
-                },
-                $preamble
-            );
-        @endphp
-        <div class="section preamble">{!! $preamble !!}</div>
-    @endif
-    @if($sample->subject_of_contract)
-        <h2>1. Предмет договора</h2>
-        <div class="section">{!! str_replace(array_keys($replacements), array_values($replacements), $sample->subject_of_contract) !!}</div>
-    @endif
-    @if(($sample->rights ?? $sample->rights_and_obligations ?? null))
-        <h2>2. Права и обязанности сторон</h2>
-        <div class="section">{!! str_replace(array_keys($replacements), array_values($replacements), $sample->rights ?? $sample->rights_and_obligations ?? '') !!}</div>
-    @endif
-    @if($sample->payment_terms)
-        <h2>3. Условия оплаты</h2>
-        <div class="section">{!! str_replace(array_keys($replacements), array_values($replacements), $sample->payment_terms) !!}</div>
-    @endif
-    @if($sample->liability)
-        <h2>4. Ответственность сторон</h2>
-        <div class="section">{!! str_replace(array_keys($replacements), array_values($replacements), $sample->liability) !!}</div>
-    @endif
-    @if($sample->force_majeure)
-        <h2>5. Форс-мажор</h2>
-        <div class="section">{!! str_replace(array_keys($replacements), array_values($replacements), $sample->force_majeure) !!}</div>
-    @endif
-    @if($sample->dispute_resolution)
-        <h2>6. Разрешение споров</h2>
-        <div class="section">{!! str_replace(array_keys($replacements), array_values($replacements), $sample->dispute_resolution) !!}</div>
-    @endif
-    @if($sample->confidentiality)
-        <h2>7. Конфиденциальность</h2>
-        <div class="section">{!! str_replace(array_keys($replacements), array_values($replacements), $sample->confidentiality) !!}</div>
-    @endif
-    @if($sample->other_conditions)
-        <h2>8. Прочие условия</h2>
-        <div class="section">{!! str_replace(array_keys($replacements), array_values($replacements), $sample->other_conditions) !!}</div>
-    @endif
-    @if($sample->signatures_block)
-        <div class="signature-block section">
-            @php
-                $sigBlock = str_replace(array_keys($replacements), array_values($replacements), $sample->signatures_block);
-                if (str_contains($sigBlock, 'ИСПОЛНИТЕЛЬ:') && str_contains($sigBlock, 'ЗАКАЗЧИК:')) {
-                    $sections = preg_split('/(ЗАКАЗЧИК:)/', $sigBlock, 2, PREG_SPLIT_DELIM_CAPTURE);
-                    $executorPart = $sections[0] ?? '';
-                    $clientPart = ($sections[1] ?? '') . ($sections[2] ?? '');
-                    $executorPart = str_replace(
-                        ['[Наименование]', 'Адрес: __________________', 'ИНН/КПП: ________________', 'Р/с: ____________________', 'БИК: ____________________'],
-                        [$orgFullName ?: '[Наименование]', 'Адрес: ' . ($orgLegalAddress ?: '__________________'), 'ИНН/КПП: ' . ($orgInnKpp ?: '________________'), 'Р/с: ' . ($orgBankDetails ?: '____________________'), 'БИК: ' . ($orgBankDetails ?: '____________________')],
-                        $executorPart
-                    );
-                    $clientPart = str_replace(
-                        ['[Наименование]', 'Адрес: __________________', 'ИНН/КПП: ________________', 'Р/с: ____________________', 'БИК: ____________________'],
-                        [$clientFullName ?: $client?->name ?: '[Наименование]', 'Адрес: ' . ($clientLegalAddress ?: '__________________'), 'ИНН/КПП: ' . ($clientInnKpp ?: '________________'), 'Р/с: ' . ($clientBankDetails ?: '____________________'), 'БИК: ' . ($clientBankDetails ?: '____________________')],
-                        $clientPart
-                    );
-                    $sigBlock = $executorPart . $clientPart;
-                } else {
-                    $sigBlock = str_replace(
-                        ['[Наименование]', 'Адрес: __________________', 'ИНН/КПП: ________________', 'Р/с: ____________________', 'БИК: ____________________'],
-                        [$orgFullName ?: $clientFullName ?: '[Наименование]', 'Адрес: ' . ($orgLegalAddress ?: $clientLegalAddress ?: '__________________'), 'ИНН/КПП: ' . ($orgInnKpp ?: $clientInnKpp ?: '________________'), 'Р/с: ' . ($orgBankDetails ?: $clientBankDetails ?: '____________________'), 'БИК: ' . ($orgBankDetails ?: $clientBankDetails ?: '____________________')],
-                        $sigBlock
-                    );
-                }
-            @endphp
-            {!! $sigBlock !!}
+@if($sample && $sample->sections)
+    @foreach($sample->sections as $section)
+        <div class="section">
+            @if(!empty($section['title']))
+                <div class="section-title">{{ $section['title'] }}</div>
+            @endif
+
+            @foreach($section['items'] as $item)
+                @php
+                    $content = replacePlaceholders($item['content'] ?? '', $replacements);
+                @endphp
+
+                @if($item['type'] === 'text')
+                    <div class="clause double-space">asfda{!! nl2br(e($content)) !!}</div>
+                @elseif($item['type'] === 'clause')
+                    <div class="clause">
+                        2222
+                        <span class="clause-number">{{ $item['title'] ?? $item['number'] ?? '' }}</span>
+                        <span >{!! nl2br(e($content)) !!}</span>
+                    </div>
+                    @if(!empty($item['children']))
+                        @foreach($item['children'] as $child)
+                            @php
+                                $childContent = replacePlaceholders($child['content'] ?? '', $replacements);
+                            @endphp
+                            <div class="subclause">
+                                3333
+                                <span class="subclause-number">{{ $child['title'] ?? $child['number'] ?? '' }}</span>
+                                <span >{!! nl2br(e($childContent)) !!}</span>
+                            </div>
+                        @endforeach
+                    @endif
+                @elseif($item['type'] === 'list')
+                    <div class="clause">
+                        @if($item['title'])
+                            <div class="caps" style="margin-bottom: 10px;">{{ $item['title'] }}</div>
+                        @endif
+                        @foreach(explode("\n", $content) as $line)
+                            @if(trim($line))
+                                <div class="list-item">
+                                    <span class="list-number">{{ $loop->iteration }}.</span>
+                                    {!! nl2br(e(trim($line))) !!}
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                @endif
+            @endforeach
         </div>
-    @endif
+    @endforeach
 @else
     <div class="section">
-        <p><strong>Договор №</strong> {{ $contract->contract_number }}</p>
-        <p><strong>Название:</strong> {{ $contract->title }}</p>
-        <p><strong>Клиент:</strong> {{ $client?->name ?? '-' }}</p>
-        <p><strong>Сумма:</strong> {{ number_format((float) $contract->amount, 2, ',', ' ') }} руб.</p>
-        <p><strong>Период:</strong> {{ $contract->start_date?->format('d.m.Y') }} — {{ $contract->end_date?->format('d.m.Y') }}</p>
-        @if($contract->description)
-            <p><strong>Описание:</strong> {{ $contract->description }}</p>
-        @endif
+        <div class="clause">Шаблон договора не найден</div>
     </div>
 @endif
+
+<div class="signature-block">
+    <div class="signature-section">
+        <div class="signature-title">РЕКВИЗИТЫ И ПОДПИСИ СТОРОН</div>
+
+        <div class="signature-row">
+            <div class="signature-item">
+                <div style="font-weight: bold; margin-bottom: 15px;">ИСПОЛНИТЕЛЬ:</div>
+                <table class="requisites">
+                    <tr><td>Наименование:</td><td>{{ $orgName }}</td></tr>
+                    <tr><td>Юридический адрес:</td><td>{{ $orgLegalAddress }}</td></tr>
+                    <tr><td>УНП:</td><td>{{ $orgInn }}</td></tr>
+                    <tr><td>Телефон:</td><td>{{ $orgPhone }}</td></tr>
+                    <tr><td>E-mail:</td><td>{{ $orgEmail }}</td></tr>
+                </table>
+                <div class="signature-line"></div>
+                <div class="signature-label caps">_______________________ / ________________</div>
+            </div>
+
+            <div class="signature-item">
+                <div style="font-weight: bold; margin-bottom: 15px;">ЗАКАЗЧИК:</div>
+                <table class="requisites">
+                    <tr><td>ФИО / Наименование:</td><td>{{ $clientName }}</td></tr>
+                    <tr><td>Адрес регистрации / нахождения:</td><td>{{ $clientLegalAddress }}</td></tr>
+                    @if($clientInn)
+                        <tr><td>УНП / ИНН:</td><td>{{ $clientInn }}</td></tr>
+                    @endif
+                    <tr><td>Телефон:</td><td>{{ $clientPhone }}</td></tr>
+                    <tr><td>E-mail:</td><td>{{ $clientEmail }}</td></tr>
+                </table>
+                <div class="signature-line"></div>
+                <div class="signature-label caps">_______________________ / ________________</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    Документ сформирован автоматически {{ date('d.m.Y г. H:i:s') }}
+</div>
+
 </body>
 </html>

@@ -9,16 +9,10 @@ use Illuminate\Support\Facades\App;
 
 class SampleContractResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
-
-
     public function toArray(Request $request): array
     {
         $imageService = App::make(ImageService::class);
+
         return [
             'id' => $this->id,
             'template_code' => $this->template_code,
@@ -28,18 +22,11 @@ class SampleContractResource extends JsonResource
             'status' => $this->status,
             'version' => $this->version,
             'is_default' => $this->is_default,
-            'preamble' => $this->preamble,
-            'subject_of_contract' => $this->subject_of_contract,
-            'rights' => $this->rights,
-            'payment_terms' => $this->payment_terms,
-            'liability' => $this->liability,
-            'force_majeure' => $this->force_majeure,
-            'dispute_resolution' => $this->dispute_resolution,
-            'confidentiality' => $this->confidentiality,
-            'other_conditions' => $this->other_conditions,
+            'sections' => $this->sections,        // ← добавить
+            'notes' => $this->notes,              // ← добавить
             'signatures_block' => $this->signatures_block,
-            'clauses' => $this->clauses,
-            'image_path' =>  $imageService->url($this->images->pluck('big_uri')->toArray()),
+            'metadata' => $this->metadata,        // ← добавить
+            'image_path' => $imageService->url($this->images->pluck('big_uri')->toArray()),
         ];
     }
 }

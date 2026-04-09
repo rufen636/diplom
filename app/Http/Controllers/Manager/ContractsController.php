@@ -7,6 +7,7 @@ use App\Models\Contract;
 use App\Models\ProviderClient;
 use App\Models\ProviderDetail;
 use App\Models\SampleContract;
+use App\Models\TransferAct;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -111,7 +112,10 @@ class ContractsController extends Controller
 
         $validated['sample_id'] = !empty($validated['sample_id']) ? $validated['sample_id'] : null;
         $contract->update($validated);
-
+        $transferAct = TransferAct::where('contract_id', $contract->id)->first();
+        $transferAct->update([
+            'expiration_date' => $validated['end_date'],
+        ]);
         return redirect()->route('manager.contracts.index')
             ->with('success', 'Договор успешно обновлен.');
     }
@@ -147,16 +151,29 @@ class ContractsController extends Controller
     /**
      * Сгенерировать PDF договора из шаблона SampleContract и данных Contract
      */
-    public function generatePdf(Contract $contract): \Illuminate\Http\Response
+    public function generatePdf(Contract $contract)
     {
-        $contract->load(['providerClient.detail', 'sampleContract']);
+        $contract->load(['providerClient.detail', 'sampleContract', 'serviceRequest']);
 
         $organization = ProviderDetail::with('providerClient')->first();
 
-        $pdf = Pdf::loadView('contract_pdf', [
+        // Подготавливаем данные для замены в шаблоне
+        $client = $contract->providerClient;
+        $detail = $client?->detail;
+        $serviceRequest = $contract->serviceRequest;
+        $sample = $contract->sampleContract;
+
+        $data = [
             'contract' => $contract,
             'organization' => $organization,
-        ]);
+            'client' => $client,
+            'detail' => $detail,
+            'serviceRequest' => $serviceRequest,
+            'sample' => $sample,
+        ];
+
+        $pdf = Pdf::loadView('pdf.contract_pdf', $data);
+        $pdf->setPaper('a4', 'portrait');
 
         return $pdf->stream('contract-' . $contract->id . '.pdf');
     }

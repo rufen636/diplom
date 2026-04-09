@@ -62,6 +62,14 @@
                         <svg  fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="router-5" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color w-5 h-5 mr-3"><path id="primary" d="M5,9H19a1,1,0,0,1,1,1V20a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V10A1,1,0,0,1,5,9ZM8,4V9" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><line id="secondary" x1="14" y1="13" x2="16" y2="13" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><line id="secondary-upstroke" x1="8.05" y1="3.5" x2="7.95" y2="3.5" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line></svg>
                         Оборудование
                     </Link>
+                    <Link
+                        :href="route('sysadmin.fixed-equipments.index')"
+                        class="nav-link "
+                        :class="{ active: $page.url.startsWith('/sysadmin/fixed-equipments') }"
+                    >
+                        <img src="/free-icon-equipment-1642063.png" class="w-5 h-5 mr-3">
+                        ТМЦ
+                    </Link>
 
 
                 </nav>
@@ -113,6 +121,7 @@
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import {assert} from "@vue/compiler-core";
 
 defineProps({
     title: {

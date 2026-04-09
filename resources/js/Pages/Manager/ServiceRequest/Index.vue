@@ -65,7 +65,8 @@
                                         'bg-green-100 text-green-800': request.status === 'accepted',
                                         'bg-gray-100 text-gray-800': request.status === 'archived',
                                         'bg-yellow-100 text-yellow-800': request.status === 'created',
-                                        'bg-blue-100 text-blue-800': request.status === 'on_inspection'
+                                        'bg-blue-100 text-blue-800': request.status === 'on_inspection',
+                                        'bg-blue-200 text-blue-700': request.status === 'equipment_assigned'
                                     }"
                                     class="px-2 py-1 text-xs font-semibold rounded-full"
                                 >
@@ -248,6 +249,7 @@ export default defineComponent({
                 'accepted': 'Принята',
                 'on_inspection': 'На проверке',
                 'archived': 'Архивирована',
+                'equipment_assigned' : 'Оборудование привязано'
             };
             return labels[status] || status;
         }

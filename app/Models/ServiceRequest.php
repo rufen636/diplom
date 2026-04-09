@@ -47,4 +47,9 @@ class ServiceRequest extends Model
     {
         return $this->hasOne(Contract::class, 'service_request_id', 'id');
     }
+    public function sampleContract()
+    {
+        return $this->hasOne(SampleContract::class, 'id', 'sample_contract_id');
+
+    }
 }

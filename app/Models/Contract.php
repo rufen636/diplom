@@ -57,6 +57,7 @@ class Contract extends Model
         'amount',
         'status',
         'description',
+        'service_request_id'
     ];
 
     protected $casts = [
@@ -114,7 +115,7 @@ class Contract extends Model
     public function serviceRequest()
     {
 
-        return $this->belongsTo(ServiceRequest::class, 'id', 'service_request_id');
+        return $this->belongsTo(ServiceRequest::class, 'service_request_id', 'id');
     }
 
 }
