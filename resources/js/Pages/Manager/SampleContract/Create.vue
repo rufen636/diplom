@@ -60,6 +60,55 @@
                         </button>
                     </div>
 
+                    <!-- Блок с переменными -->
+                    <div class="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="text-sm font-medium text-gray-700 mb-2">Доступные переменные (нажмите для вставки):</div>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" @click="insertVariableToActiveField('{{client_name}}')" class="variable-btn">
+                                👤 Имя клиента
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{client_address}}')" class="variable-btn">
+                                📍 Адрес клиента
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{client_phone}}')" class="variable-btn">
+                                📞 Телефон клиента
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{client_email}}')" class="variable-btn">
+                                ✉️ Email клиента
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{client_inn}}')" class="variable-btn">
+                                🆔 ИНН клиента
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{client_passport}}')" class="variable-btn">
+                                🪪 Паспортные данные
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{tariff_name}}')" class="variable-btn">
+                                📡 Название тарифа
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{tariff_speed}}')" class="variable-btn">
+                                ⚡ Скорость тарифа
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{tariff_price}}')" class="variable-btn">
+                                💰 Цена тарифа
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{contract_number}}')" class="variable-btn">
+                                📄 Номер договора
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('{{current_date}}')" class="variable-btn">
+                                📅 Текущая дата
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('[Город]')" class="variable-btn">
+                                🏙️ Город
+                            </button>
+                            <button type="button" @click="insertVariableToActiveField('[Дата]')" class="variable-btn">
+                                📆 Дата договора
+                            </button>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-2">
+                            💡 Кликните на поле ввода, затем нажмите на нужную переменную для вставки
+                        </div>
+                    </div>
+
                     <!-- Список разделов -->
                     <div class="space-y-6">
                         <div v-for="(section, sIndex) in sections" :key="section.id" class="border rounded-lg p-4">
@@ -112,10 +161,12 @@
                                     </div>
 
                                     <textarea
+                                        :ref="el => setTextareaRef(sIndex, iIndex, el)"
                                         v-model="item.content"
                                         rows="3"
                                         class="input-field w-full"
                                         :placeholder="'Введите содержание ' + (item.title || 'пункта')"
+                                        @focus="setActiveField(sIndex, iIndex)"
                                     ></textarea>
                                 </div>
 
@@ -157,6 +208,7 @@
                         <textarea v-model="form.notes" rows="2" class="input-field" placeholder="Внутренние заметки..."></textarea>
                     </div>
                 </div>
+
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Нарисуйте подпись
@@ -170,6 +222,7 @@
                         Нарисуйте подпись с помощью мыши или касанием (на сенсорных экранах)
                     </p>
                 </div>
+
                 <!-- Кнопки -->
                 <div class="flex justify-end gap-3 mt-8 pt-6 border-t">
                     <Link :href="route('manager.sample-contracts.index')" class="btn-secondary">
@@ -191,7 +244,7 @@ import SignaturePad from '@/Pages/SignaturePad.vue';
 
 export default {
     layout: ManagerLayout,
-    components: { Link,SignaturePad },
+    components: { Link, SignaturePad },
     props: {
         template: {
             type: Object,
@@ -213,7 +266,10 @@ export default {
                 notes: this.template?.notes || '',
                 signature_image: null,
             }),
-            isEditing: !!this.template
+            isEditing: !!this.template,
+            activeSectionIndex: null,
+            activeItemIndex: null,
+            textareaRefs: {}
         };
     },
     computed: {
@@ -258,6 +314,53 @@ export default {
 
         generateId() {
             return Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        },
+
+        setTextareaRef(sectionIndex, itemIndex, el) {
+            if (el) {
+                const key = `${sectionIndex}-${itemIndex}`;
+                this.textareaRefs[key] = el;
+            }
+        },
+
+        setActiveField(sectionIndex, itemIndex) {
+            this.activeSectionIndex = sectionIndex;
+            this.activeItemIndex = itemIndex;
+        },
+
+        insertVariableToActiveField(variable) {
+            if (this.activeSectionIndex === null || this.activeItemIndex === null) {
+                alert('Сначала кликните на текстовое поле, куда хотите вставить переменную');
+                return;
+            }
+
+            const key = `${this.activeSectionIndex}-${this.activeItemIndex}`;
+            const textarea = this.textareaRefs[key];
+
+            if (!textarea) {
+                alert('Не удалось найти текстовое поле');
+                return;
+            }
+
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const currentValue = this.sections[this.activeSectionIndex].items[this.activeItemIndex].content;
+
+            // Вставляем переменную в позицию курсора
+            const newValue = currentValue.substring(0, start) + variable + currentValue.substring(end);
+
+            // Обновляем данные через v-model
+            this.sections[this.activeSectionIndex].items[this.activeItemIndex].content = newValue;
+
+            // Восстанавливаем фокус и позицию курсора после обновления DOM
+            this.$nextTick(() => {
+                const updatedTextarea = this.textareaRefs[key];
+                if (updatedTextarea) {
+                    updatedTextarea.focus();
+                    const newPosition = start + variable.length;
+                    updatedTextarea.setSelectionRange(newPosition, newPosition);
+                }
+            });
         },
 
         addSection() {
@@ -325,3 +428,18 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.variable-btn {
+    @apply px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300 transition-colors cursor-pointer;
+}
+.input-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4E89A5] focus:border-transparent;
+}
+.btn-secondary {
+    @apply px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors;
+}
+.btn-primary {
+    @apply bg-[#4E89A5] text-white px-4 py-2 rounded-lg hover:bg-[#416081] transition-colors;
+}
+</style>

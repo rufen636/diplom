@@ -31,7 +31,7 @@ class RequestRejected extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('rovik636@gmial.com','System Admin'),
+            from: new Address('rovik636@gmail.com','System Admin'),
             replyTo: $this->mailTo,
             subject: 'Request Rejected'
         );
