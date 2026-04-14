@@ -257,7 +257,7 @@ onMounted(() => {
                     </p>
                 </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     <!-- Карточка 1 -->
                     <div class="group relative animate-on-scroll">
                         <div class="absolute -inset-0.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
@@ -278,42 +278,42 @@ onMounted(() => {
                     </div>
 
                     <!-- Карточка 2 -->
-                    <div class="group relative animate-on-scroll">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
-                        <div class="relative bg-[#0A0F1E]/90 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 transform hover:-translate-y-2">
-                            <div class="w-16 h-16 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                <svg class="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-white mb-4">Блокчейн-подпись</h3>
-                            <p class="text-gray-400 leading-relaxed">
-                                Юридически значимый документооборот с использованием blockchain технологий
-                            </p>
-                            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">02</span>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="group relative animate-on-scroll">-->
+<!--                        <div class="absolute -inset-0.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>-->
+<!--                        <div class="relative bg-[#0A0F1E]/90 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 transform hover:-translate-y-2">-->
+<!--                            <div class="w-16 h-16 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">-->
+<!--                                <svg class="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+<!--                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />-->
+<!--                                </svg>-->
+<!--                            </div>-->
+<!--                            <h3 class="text-2xl font-bold text-white mb-4">Блокчейн-подпись</h3>-->
+<!--                            <p class="text-gray-400 leading-relaxed">-->
+<!--                                Юридически значимый документооборот с использованием blockchain технологий-->
+<!--                            </p>-->
+<!--                            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">-->
+<!--                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">02</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
                     <!-- Карточка 3 -->
-                    <div class="group relative animate-on-scroll">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
-                        <div class="relative bg-[#0A0F1E]/90 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 transform hover:-translate-y-2">
-                            <div class="w-16 h-16 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                                <svg class="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-white mb-4">AI-аналитика</h3>
-                            <p class="text-gray-400 leading-relaxed">
-                                Искусственный интеллект анализирует договоры и предсказывает риски
-                            </p>
-                            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">03</span>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="group relative animate-on-scroll">-->
+<!--                        <div class="absolute -inset-0.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>-->
+<!--                        <div class="relative bg-[#0A0F1E]/90 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 transform hover:-translate-y-2">-->
+<!--                            <div class="w-16 h-16 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">-->
+<!--                                <svg class="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+<!--                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />-->
+<!--                                </svg>-->
+<!--                            </div>-->
+<!--                            <h3 class="text-2xl font-bold text-white mb-4">AI-аналитика</h3>-->
+<!--                            <p class="text-gray-400 leading-relaxed">-->
+<!--                                Искусственный интеллект анализирует договоры и предсказывает риски-->
+<!--                            </p>-->
+<!--                            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">-->
+<!--                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">03</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
                     <!-- Карточка 4 -->
                     <div class="group relative animate-on-scroll">
@@ -329,7 +329,7 @@ onMounted(() => {
                                 Автоматическое создание, проверка и отправка договоров клиентам
                             </p>
                             <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">04</span>
+                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">02</span>
                             </div>
                         </div>
                     </div>
@@ -348,7 +348,7 @@ onMounted(() => {
                                 Подключение к 1С, CRM, банкам и государственным сервисам
                             </p>
                             <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">05</span>
+                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">03</span>
                             </div>
                         </div>
                     </div>
@@ -367,7 +367,7 @@ onMounted(() => {
                                 Шифрование данных и соответствие требованиям 152-ФЗ
                             </p>
                             <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">06</span>
+                                <span class="text-4xl text-violet-400/20 group-hover:text-violet-400/40 transition-colors">04</span>
                             </div>
                         </div>
                     </div>
@@ -376,89 +376,83 @@ onMounted(() => {
         </div>
 
         <!-- How It Works Section с горизонтальной прокруткой -->
-        <div id="how-it-works" class="relative py-32 overflow-hidden">
+        <div id="how-it-works" class="relative py-24 overflow-hidden">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-20">
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 animate-on-scroll">
-                        Процесс, который
-                        <span class="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">вдохновляет</span>
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                        Как работает
+                        <span class="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">система</span>
                     </h2>
-                    <p class="text-xl text-gray-400 max-w-3xl mx-auto animate-on-scroll">
-                        Всего 4 простых шага отделяют вас от эффективного управления договорами
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                        Простой и понятный процесс управления договорами
                     </p>
                 </div>
 
-                <div class="relative">
-                    <!-- Линия прогресса -->
-                    <div class="absolute top-24 left-0 w-full h-0.5 bg-white/10">
-                        <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-violet-500 to-fuchsia-500 animate-progress"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Шаг 1 -->
+                    <div class="bg-[#0A0F1E]/80 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-violet-500/50 transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center">
+                                <span class="text-xl font-bold text-white">1</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">Заявка</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Клиент оставляет заявку на подключение через сайт или по телефону
+                        </p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                        <div class="relative animate-on-scroll group">
-                            <div class="bg-[#0A0F1E]/90 backdrop-blur-sm rounded-2xl p-8 border border-white/10 group-hover:border-violet-500/50 transition-all duration-500">
-                                <div class="w-16 h-16 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                                    <span class="text-2xl font-bold text-white">1</span>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-3">Создание</h3>
-                                <p class="text-gray-400">Выберите шаблон и заполните данные за 2 минуты</p>
-                                <div class="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <svg class="w-6 h-6 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </div>
+                    <!-- Шаг 2 -->
+                    <div class="bg-[#0A0F1E]/80 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-violet-500/50 transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center">
+                                <span class="text-xl font-bold text-white">2</span>
                             </div>
+                            <h3 class="text-lg font-bold text-white">Проверка</h3>
                         </div>
-
-                        <div class="relative animate-on-scroll group">
-                            <div class="bg-[#0A0F1E]/90 backdrop-blur-sm rounded-2xl p-8 border border-white/10 group-hover:border-violet-500/50 transition-all duration-500">
-                                <div class="w-16 h-16 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                                    <span class="text-2xl font-bold text-white">2</span>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-3">Согласование</h3>
-                                <p class="text-gray-400">Автоматическая отправка на проверку юристу</p>
-                                <div class="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <svg class="w-6 h-6 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="relative animate-on-scroll group">
-                            <div class="bg-[#0A0F1E]/90 backdrop-blur-sm rounded-2xl p-8 border border-white/10 group-hover:border-violet-500/50 transition-all duration-500">
-                                <div class="w-16 h-16 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                                    <span class="text-2xl font-bold text-white">3</span>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-3">Подписание</h3>
-                                <p class="text-gray-400">Электронная подпись за 1 клик с любого устройства</p>
-                                <div class="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <svg class="w-6 h-6 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="relative animate-on-scroll group">
-                            <div class="bg-[#0A0F1E]/90 backdrop-blur-sm rounded-2xl p-8 border border-white/10 group-hover:border-violet-500/50 transition-all duration-500">
-                                <div class="w-16 h-16 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                                    <span class="text-2xl font-bold text-white">4</span>
-                                </div>
-                                <h3 class="text-xl font-bold text-white mb-3">Хранение</h3>
-                                <p class="text-gray-400">Безопасный архив с умным поиском документов</p>
-                                <div class="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <svg class="w-6 h-6 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Технический отдел проверяет возможность подключения по адресу
+                        </p>
                     </div>
+
+                    <!-- Шаг 3 -->
+                    <div class="bg-[#0A0F1E]/80 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-violet-500/50 transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center">
+                                <span class="text-xl font-bold text-white">3</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">Договор</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Автоматическое формирование договора с подстановкой данных клиента
+                        </p>
+                    </div>
+
+                    <!-- Шаг 4 -->
+                    <div class="bg-[#0A0F1E]/80 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-violet-500/50 transition-all duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center">
+                                <span class="text-xl font-bold text-white">4</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">Подключение</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Подписание договора и активация услуги доступа в интернет
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Кнопка действия -->
+                <div class="text-center mt-12">
+                    <a href="#contact" class="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white font-medium px-8 py-3 rounded-xl transition-all duration-300">
+                        Начать работу
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
-
         <!-- CTA Section с 3D эффектом -->
         <div class="relative py-32">
             <div class="absolute inset-0 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20"></div>

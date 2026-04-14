@@ -9,10 +9,12 @@ use App\Http\Resources\Manager\ProviderClient\ClientResource;
 use App\Http\Resources\Manager\SampleContract\SampleContractResource;
 use App\Http\Resources\Manager\Service\ServiceResource;
 use App\Http\Resources\Manager\ServiceRequest\ServiceRequestResource;
+use App\Http\Resources\Manager\Tariff\TariffResource;
 use App\Models\ProviderClient;
 use App\Models\SampleContract;
 use App\Models\Service;
 use App\Models\ServiceRequest;
+use App\Models\Tariff;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -25,7 +27,8 @@ class ServiceRequestController extends Controller
         $services = ServiceResource::collection(Service::where('is_active',true)->get())->resolve();
         $sample_contracts_person = SampleContractResource::collection(SampleContract::where('status','active')->where('contract_type','individual')->get())->resolve();
         $sample_contracts_company = SampleContractResource::collection(SampleContract::where('status','active')->where('contract_type','company')->get())->resolve();
-        return Inertia::render('Manager/ServiceRequest/Create',['provider_clients_person'=>$provider_clients_person,'provider_clients_company'=>$provider_clients_company,'services'=>$services,'sample_contracts_company'=>$sample_contracts_company,'sample_contracts_person'=>$sample_contracts_person]);
+        $tariffs = TariffResource::collection(Tariff::where('is_active',1)->get())->resolve();
+        return Inertia::render('Manager/ServiceRequest/Create',['provider_clients_person'=>$provider_clients_person,'provider_clients_company'=>$provider_clients_company,'services'=>$services,'sample_contracts_company'=>$sample_contracts_company,'sample_contracts_person'=>$sample_contracts_person,'tariffs'=>$tariffs]);
     }
     /**
      * Display a listing of the resource.

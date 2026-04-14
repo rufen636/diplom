@@ -130,7 +130,21 @@
                             </option>
                         </select>
                     </div>
-
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Выберите тариф <span class="text-red-500">*</span>
+                        </label>
+                        <select class="input-field" v-model="form.tariff_id">
+                            <option disabled value="">Не выбрано</option>
+                            <option
+                                v-for="tariff in tariffs"
+                                :key="tariff.id"
+                                :value="tariff.id"
+                            >
+                                {{ tariff.name }}
+                            </option>
+                        </select>
+                    </div>
                     <!-- Статус заявки -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -185,7 +199,8 @@ export default {
         sample_contracts_person: Array,
         provider_clients_person: Array,
         provider_clients_company: Array,
-        services: Array
+        services: Array,
+        tariffs: Array
     },
 
     components: { Link, ManagerLayout },
@@ -198,6 +213,7 @@ export default {
                 client_type: '',  // Изменено с 'type' на 'client_type' и добавлено значение по умолчанию
                 service_id: '',
                 client_id: '',
+                tariff_id:'',
                 sample_contract_id: '',
                 installation_address: '',
                 status: 'created'       // Добавлено значение по умолчанию
