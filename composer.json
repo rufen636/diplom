@@ -9,6 +9,7 @@
         "php": "^8.4",
         "ext-pdo": "*",
         "barryvdh/laravel-dompdf": "^3.1",
+        "darkaonline/l5-swagger": "^11.0",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/ai": "^0.3.1",
         "laravel/framework": "^13.0",
@@ -16,7 +17,8 @@
         "spatie/laravel-permission": "^6.21",
         "symfony/http-client": "^8.0",
         "symfony/mailgun-mailer": "^8.0",
-        "tightenco/ziggy": "^2.0"
+        "tightenco/ziggy": "^2.0",
+        "zircote/swagger-php": "^6.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.6",
