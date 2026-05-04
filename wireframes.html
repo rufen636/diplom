@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вайрфреймы | WebContact Pro — Адаптивный дизайн</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e5e7eb;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            padding: 40px 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #d1d5db;
+        }
+
+        .device-section {
+            margin-bottom: 48px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .device-header {
+            background: #f1f5f9;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .device-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .device-spec {
+            font-size: 13px;
+            color: #64748b;
+            background: #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .mockup {
+            background: #f8fafc;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Desktop (1024px) */
+        .desktop-frame {
+            width: 1024px;
+            background: #f1f5f9;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tablet (768px) */
+        .tablet-frame {
+            width: 768px;
+            background: #f1f5f9;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mobile (375px) */
+        .mobile-frame {
+            width: 375px;
+            background: #f1f5f9;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стили для элементов вайрфрейма */
+        .wf-browser-bar {
+            background: #e2e8f0;
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .wf-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #94a3b8;
+        }
+
+        .wf-content {
+            padding: 20px;
+        }
+
+        /* Элементы с текстом */
+        .wf-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+
+        .wf-value {
+            background: #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .wf-row-flex {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: flex-end;
+        }
+
+        .wf-col {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .wf-sidebar {
+            width: 240px;
+            background: #ffffff;
+            border-right: 1px solid #e2e8f0;
+            padding: 16px;
+        }
+
+        .wf-sidebar-item {
+            padding: 10px 12px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .wf-sidebar-item.active {
+            background: #e2e8f0;
+            font-weight: 500;
+        }
+
+        .wf-main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .flex-row {
+            display: flex;
+        }
+
+        .wf-table {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .wf-table-header {
+            background: #f1f5f9;
+            display: flex;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .wf-table-row {
+            display: flex;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            background: white;
+        }
+
+        .wf-table-cell {
+            flex: 1;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .wf-header-cell {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .wf-button {
+            background: #cbd5e1;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #475569;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .wf-button-primary {
+            background: #94a3b8;
+            color: white;
+        }
+
+        .wf-filter {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .wf-badge {
+            background: #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: #475569;
+            display: inline-block;
+        }
+
+        .wf-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .wf-page {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .wf-page.active {
+            background: #cbd5e1;
+            border-color: #94a3b8;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .wf-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .wf-mobile-nav {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wf-mobile-item {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ========== DESKTOP / BROWSER ========== -->
+    <div class="device-section">
+        <div class="device-header">
+            <span class="device-name"> DEFAULT / BROWSER</span>
+            <span class="device-spec">Viewport 1024 × 768</span>
+        </div>
+        <div class="mockup">
+            <div class="desktop-frame">
+                <div class="wf-browser-bar">
+                    <div class="wf-dot"></div>
+                    <div class="wf-dot"></div>
+                    <div class="wf-dot"></div>
+                </div>
+                <div class="flex-row">
+                    <!-- Sidebar -->
+                    <div class="wf-sidebar">
+                        <div style="margin-bottom: 24px;">
+                            <div class="wf-label">Логотип</div>
+                            <div class="wf-value" style="background: #cbd5e1; text-align: center; font-weight: 600;">Текст</div>
+                        </div>
+                        <div class="wf-sidebar-item active"> Ссылка</div>
+                        <div class="wf-sidebar-item"> Ссылка</div>
+                        <div class="wf-sidebar-item"> Ссылка</div>
+                        <div class="wf-sidebar-item"> Ссылка</div>
+                        <div class="wf-sidebar-item"> Ссылка</div>
+                        <div class="wf-sidebar-item">️ Ссылка</div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="wf-main">
+                        <div class="flex-between mb-4">
+                            <div>
+                                <div class="wf-label">Заголовок </div>
+                                <div style="font-size: 20px; font-weight: 600; color: #1e293b;">Текст</div>
+                            </div>
+                            <div class="wf-button">Текст</div>
+                        </div>
+
+                        <!-- Фильтры -->
+                        <div class="wf-label mb-1">Фильтры</div>
+                        <div class="wf-row-flex">
+                            <div class="wf-col">
+                                <div class="wf-filter"> Поле ввода </div>
+                            </div>
+                            <div class="wf-col">
+                                <div class="wf-filter"> Поле выбора </div>
+                            </div>
+                            <div class="wf-col">
+                                <div class="wf-filter"> Поле выбора </div>
+                            </div>
+                            <div class="wf-col">
+                                <div class="wf-filter"> Поле выбора </div>
+                            </div>
+                        </div>
+
+                        <!-- Таблица -->
+                        <div class="wf-table">
+                            <div class="wf-table-header">
+                                <div class="wf-header-cell">Текст</div>
+                                <div class="wf-header-cell">Текст</div>
+                                <div class="wf-header-cell">Текст</div>
+                                <div class="wf-header-cell">Текст</div>
+                                <div class="wf-header-cell" style="flex: 0.5;">Текст</div>
+                            </div>
+                            <div class="wf-table-row">
+                                <div class="wf-table-cell">Текст</div>
+                                <div class="wf-table-cell"><span class="wf-badge">Текст</span></div>
+                                <div class="wf-table-cell">Текст.</div>
+                                <div class="wf-table-cell">Текст</div>
+                                <div class="wf-table-cell" style="flex: 0.5;">Текст️</div>
+                            </div>
+
+                        </div>
+
+                        <!-- Пагинация -->
+                        <div class="wf-pagination">
+                            <div class="wf-page">«</div>
+                            <div class="wf-page active">1</div>
+                            <div class="wf-page">2</div>
+                            <div class="wf-page">3</div>
+                            <div class="wf-page">»</div>
+                        </div>
+
+                        <!-- Кнопка -->
+                        <div class="text-center mt-4">
+                            <div class="wf-button" style="display: inline-block;">Текст / Текст</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TABLET PORTRAIT ========== -->
+    <div class="device-section">
+        <div class="device-header">
+            <span class="device-name"> TABLET PORTRAIT</span>
+            <span class="device-spec">Viewport 768 × 1024</span>
+        </div>
+        <div class="mockup">
+            <div class="tablet-frame">
+                <div class="wf-browser-bar">
+                    <div class="wf-dot"></div>
+                    <div class="wf-dot"></div>
+                    <div class="wf-dot"></div>
+                </div>
+                <div class="flex-row">
+                    <!-- Sidebar (уменьшенный) -->
+                    <div class="wf-sidebar" style="width: 200px;">
+                        <div style="margin-bottom: 20px;">
+                            <div class="wf-label">Логотип</div>
+                            <div class="wf-value" style="text-align: center; font-size: 12px;">Текст</div>
+                        </div>
+                        <div class="wf-sidebar-item"> Ссылка</div>
+                        <div class="wf-sidebar-item"> Ссылка</div>
+                        <div class="wf-sidebar-item"> Ссылка</div>
+                        <div class="wf-sidebar-item">️ Ссылка</div>
+                    </div>
+
+                    <div class="wf-main">
+                        <div class="flex-between mb-3">
+                            <div style="font-size: 18px; font-weight: 600; color: #1e293b;">Текст</div>
+                            <div class="wf-button" style="padding: 8px 16px; font-size: 12px;"> Текст</div>
+                        </div>
+
+                        <!-- Фильтры (2 колонки) -->
+                        <div class="wf-label">Фильтры</div>
+                        <div class="wf-row-flex" style="gap: 12px;">
+                            <div class="wf-col"><div class="wf-filter"> Поиск</div></div>
+                            <div class="wf-col"><div class="wf-filter"> Поля выбора</div></div>
+                        </div>
+                        <div class="wf-row-flex" style="gap: 12px; margin-top: 8px;">
+                            <div class="wf-col"><div class="wf-filter">️ Поля выбора</div></div>
+                            <div class="wf-col"><div class="wf-filter"> Поля выбора</div></div>
+                        </div>
+
+                        <!-- Компактная таблица -->
+                        <div class="wf-table">
+                            <div class="wf-table-header">
+                                <div class="wf-header-cell">Текст</div>
+                                <div class="wf-header-cell">Текст</div>
+                                <div class="wf-header-cell">Текст</div>
+                            </div>
+                            <div class="wf-table-row">
+                                <div class="wf-table-cell">Текст</div>
+                                <div class="wf-table-cell"><span class="wf-badge">Текст</span></div>
+                                <div class="wf-table-cell">Текст</div>
+                            </div>
+
+                        </div>
+
+                        <div class="wf-pagination" style="margin-top: 16px;">
+                            <div class="wf-page">«</div>
+                            <div class="wf-page active">1</div>
+                            <div class="wf-page">2</div>
+                            <div class="wf-page">»</div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <div class="wf-button" style="display: inline-block; padding: 8px 24px;">Текст</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SMARTPHONE ========== -->
+    <div class="device-section">
+        <div class="device-header">
+            <span class="device-name"> SMARTPHONE</span>
+            <span class="device-spec">Viewport 375 × 667</span>
+        </div>
+        <div class="mockup">
+            <div class="mobile-frame">
+                <div class="wf-browser-bar">
+                    <div class="wf-dot"></div>
+                    <div class="wf-dot"></div>
+                    <div class="wf-dot"></div>
+                </div>
+
+                <!-- Мобильная шапка -->
+                <div class="wf-mobile-nav">
+                    <div class="wf-value" style="padding: 6px 12px; font-weight: 600;">Логотип</div>
+                    <div>☰</div>
+                </div>
+
+                <div class="wf-content">
+                    <!-- Заголовок -->
+                    <div style="font-size: 18px; font-weight: 600; color: #1e293b; margin-bottom: 12px;">Текст</div>
+
+                    <!-- Кнопка -->
+                    <div class="wf-button" style="width: 100%; text-align: center; margin-bottom: 16px;">Текст</div>
+
+                    <!-- Фильтры вертикально -->
+                    <div class="wf-label">Фильтры</div>
+                    <div class="wf-filter" style="margin-bottom: 8px;"> Поле ввода</div>
+                    <div class="wf-filter" style="margin-bottom: 8px;"> Поле выбора</div>
+                    <div class="wf-filter" style="margin-bottom: 16px;"> Поле выбора</div>
+
+                    <!-- Карточки заявок вместо таблицы -->
+                    <div class="wf-card">
+                        <div style="font-weight: 600;">Текст</div>
+                        <div class="wf-badge" style="margin: 8px 0;">Текст</div>
+                        <div class="wf-table-cell"></div>
+                        <div class="flex-between mt-3">
+                            <div class="wf-table-cell">Текст</div>
+                            <div>Текст</div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Пагинация -->
+                    <div class="wf-pagination" style="margin-top: 16px;">
+                        <div class="wf-page">«</div>
+                        <div class="wf-page active">1</div>
+                        <div class="wf-page">2</div>
+                        <div class="wf-page">»</div>
+                    </div>
+
+                    <!-- Кнопка закрыть -->
+                    <div class="text-center mt-4">
+                        <div class="wf-button" style="display: inline-block; padding: 8px 24px;">Текст</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

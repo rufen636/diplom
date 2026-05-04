@@ -89,6 +89,59 @@
             </div>
         </div>
 
+        <!-- Аналитика -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Динамика новых договоров</h3>
+                <div class="h-72">
+                    <canvas ref="contractsTrendCanvas"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Динамика выручки</h3>
+                <div class="h-72">
+                    <canvas ref="revenueTrendCanvas"></canvas>
+                </div>
+            </div>
+
+            <div class="card xl:col-span-2">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Распределение договоров по статусам</h3>
+                <div class="h-80 max-w-lg mx-auto">
+                    <canvas ref="statusDistributionCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Отчетность -->
+        <div class="card mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-gray-800">Отчетность</h3>
+                <Link :href="route('manager.contracts.index')" class="btn-secondary">
+                    Перейти к договорам
+                </Link>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="p-4 rounded-lg bg-[#416081]/10">
+                    <p class="text-xs uppercase tracking-wide text-gray-600">Конверсия в активные</p>
+                    <p class="text-2xl font-bold text-[#416081] mt-2">{{ activeContractsRate }}%</p>
+                </div>
+                <div class="p-4 rounded-lg bg-[#4E89A5]/10">
+                    <p class="text-xs uppercase tracking-wide text-gray-600">Средний чек договора</p>
+                    <p class="text-2xl font-bold text-[#4E89A5] mt-2">{{ averageContractAmount }}</p>
+                </div>
+                <div class="p-4 rounded-lg bg-[#8F9C9B]/10">
+                    <p class="text-xs uppercase tracking-wide text-gray-600">Новых пользователей (30 дн.)</p>
+                    <p class="text-2xl font-bold text-[#8F9C9B] mt-2">{{ stats.newUsersThisMonth }}</p>
+                </div>
+                <div class="p-4 rounded-lg bg-[#B75D5D]/10">
+                    <p class="text-xs uppercase tracking-wide text-gray-600">Выручка за 6 месяцев</p>
+                    <p class="text-2xl font-bold text-[#B75D5D] mt-2">{{ lastSixMonthsRevenue }}</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Последние договоры -->
         <div class="card mb-8">
             <div class="flex items-center justify-between mb-6">
@@ -192,13 +245,139 @@
 </template>
 
 <script setup>
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { Chart, registerables } from 'chart.js';
 import ManagerLayout from '@/Layouts/Manager/ManagerLayout.vue';
 
-defineProps({
+Chart.register(...registerables);
+
+const props = defineProps({
     stats: Object,
     recentUsers: Array,
-    recentContracts: Array
+    recentContracts: Array,
+    analytics: Object
+});
+
+const contractsTrendCanvas = ref(null);
+const revenueTrendCanvas = ref(null);
+const statusDistributionCanvas = ref(null);
+
+let contractsTrendChart = null;
+let revenueTrendChart = null;
+let statusDistributionChart = null;
+
+const activeContractsRate = computed(() => {
+    if (!props.stats?.totalContracts) {
+        return '0.0';
+    }
+
+    return ((props.stats.activeContracts / props.stats.totalContracts) * 100).toFixed(1);
+});
+
+const averageContractAmount = computed(() => {
+    if (!props.stats?.totalContracts) {
+        return formatCurrency(0);
+    }
+
+    return formatCurrency(props.stats.totalAmount / props.stats.totalContracts);
+});
+
+const lastSixMonthsRevenue = computed(() => {
+    const revenue = (props.analytics?.monthlyRevenue?.data || []).reduce((acc, value) => acc + Number(value), 0);
+    return formatCurrency(revenue);
+});
+
+function createContractsTrendChart() {
+    if (!contractsTrendCanvas.value || !props.analytics?.monthlyContracts) {
+        return;
+    }
+
+    contractsTrendChart = new Chart(contractsTrendCanvas.value, {
+        type: 'line',
+        data: {
+            labels: props.analytics.monthlyContracts.labels,
+            datasets: [
+                {
+                    label: 'Новые договоры',
+                    data: props.analytics.monthlyContracts.data,
+                    borderColor: '#416081',
+                    backgroundColor: 'rgba(65, 96, 129, 0.18)',
+                    tension: 0.35,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+function createRevenueTrendChart() {
+    if (!revenueTrendCanvas.value || !props.analytics?.monthlyRevenue) {
+        return;
+    }
+
+    revenueTrendChart = new Chart(revenueTrendCanvas.value, {
+        type: 'bar',
+        data: {
+            labels: props.analytics.monthlyRevenue.labels,
+            datasets: [
+                {
+                    label: 'Выручка, RUB',
+                    data: props.analytics.monthlyRevenue.data,
+                    backgroundColor: '#4E89A5'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+function createStatusDistributionChart() {
+    if (!statusDistributionCanvas.value || !props.analytics?.contractStatus) {
+        return;
+    }
+
+    statusDistributionChart = new Chart(statusDistributionCanvas.value, {
+        type: 'doughnut',
+        data: {
+            labels: props.analytics.contractStatus.labels,
+            datasets: [
+                {
+                    data: props.analytics.contractStatus.data,
+                    backgroundColor: ['#4E89A5', '#8F9C9B', '#B75D5D']
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+onMounted(async () => {
+    await nextTick();
+    createContractsTrendChart();
+    createRevenueTrendChart();
+    createStatusDistributionChart();
+});
+
+onBeforeUnmount(() => {
+    contractsTrendChart?.destroy();
+    revenueTrendChart?.destroy();
+    statusDistributionChart?.destroy();
 });
 
 function formatDate(dateString) {
