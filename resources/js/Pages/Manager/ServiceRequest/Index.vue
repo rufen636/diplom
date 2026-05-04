@@ -117,18 +117,21 @@
 
         <!-- Пагинация -->
         <div class="mt-6 flex justify-center">
-            <template v-for="(link, index) in requestsData.meta.links" :key="index">
+            <template v-for="(link, index) in paginationLinks" :key="index">
                 <button
                     v-if="link.url"
                     @click="goToPage(link)"
-                    class="inline-block mr-2 px-3 py-1 bg-white border border-gray-200 text-gray-700 rounded hover:bg-gray-50"
-                    :class="{ 'bg-[#4E89A5] text-white': link.active }"
-                    v-html="link.label"
+                    class="inline-block mx-1 px-3 py-1 border rounded transition-colors"
+                    :class="link.active
+                        ? 'bg-[#4E89A5] text-white border-[#4E89A5] cursor-default'
+                        : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'"
+                    :disabled="link.active"
                 >
+                    <span v-html="link.label"></span>
                 </button>
                 <span
                     v-else
-                    class="inline-block mr-2 px-3 py-1 bg-gray-100 border border-gray-200 text-gray-400 rounded cursor-not-allowed"
+                    class="inline-block mx-1 px-3 py-1 bg-gray-100 border border-gray-200 text-gray-400 rounded cursor-not-allowed"
                     v-html="link.label"
                 ></span>
             </template>
@@ -182,10 +185,36 @@ export default defineComponent({
             filter: {
                 search: '',
                 status: '',
-                page: 1,
+                page: '',
                 per_page: 10
             },
         }
+    },
+    computed:{
+        paginationLinks() {
+            if (!this.requestsData?.meta?.links) return [];
+
+            return this.requestsData.meta.links.map(link => {
+                let label = link.label;
+
+                // Замена английских названий на русские
+                if (label === '&laquo; Previous' || label === 'Previous') {
+                    label = 'Пред.';
+                } else if (label === 'Next &raquo;' || label === 'Next') {
+                    label = 'След.';
+                } else if (label === '&laquo; First') {
+                    label = '« Первая';
+                } else if (label === 'Last &raquo;') {
+                    label = 'Последняя »';
+                }
+
+                return {
+                    ...link,
+                    label: label
+                };
+            });
+        }
+
     },
     watch: {
         'filter.search': {

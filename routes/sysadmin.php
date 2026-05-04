@@ -49,12 +49,10 @@ Route::group([
     Route::resource('/fixed-equipments',FixedEquipmentController::class);
     Route::get('/act/generate/{transferAct}',[FixedEquipmentController::class,'generateAct'])->name('generateAct');
     // Оборудование
-    Route::get('/equipment', [EquipmentController::class, 'index'])->name('equipment.index');
-    Route::get('/equipment/create', [EquipmentController::class, 'create'])->name('equipment.create');
-    Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
+// Оборудование
+    Route::resource('equipment', EquipmentController::class)->except(['show']);
     Route::get('/equipment/for-node/{node}', [EquipmentController::class, 'getForNode'])->name('equipment.for-node');
     Route::post('/equipment/{equipment}/toggle-active', [EquipmentController::class, 'toggleActive'])->name('equipment.toggle-active');
-    // Настройки
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
 });

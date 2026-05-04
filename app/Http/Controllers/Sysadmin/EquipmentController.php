@@ -25,7 +25,8 @@ class EquipmentController extends Controller
             });
         }
 
-        $equipment = $query->orderBy('name')->paginate(15);
+        // Важно: передаем параметры пагинации и сохраняем search в URL
+        $equipment = $query->orderBy('name')->paginate(15)->appends($request->query());
 
         return inertia('Sysadmin/Equipment/Index', [
             'equipment' => $equipment,
@@ -52,11 +53,69 @@ class EquipmentController extends Controller
         ]);
 
         $equipment = Equipment::create($request->only(['name', 'price', 'description', 'mac_address', 'ip_address']));
+
         if ($request->filled('service_ids')) {
             $equipment->services()->sync($request->service_ids);
         }
 
         return redirect()->route('sysadmin.equipment.index')->with('success', 'Оборудование добавлено');
+    }
+
+    /**
+     * Страница редактирования оборудования
+     */
+    public function edit(Equipment $equipment)
+    {
+        $services = \App\Models\Service::select('id', 'name')->get();
+        $equipment->load('services');
+
+        return inertia('Sysadmin/Equipment/Edit', [
+            'equipment' => $equipment,
+            'services' => $services,
+        ]);
+    }
+
+    /**
+     * Обновление оборудования
+     */
+    public function update(Request $request, Equipment $equipment)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'nullable|numeric|min:0',
+            'description' => 'nullable|string',
+            'mac_address' => 'nullable|string|max:255',
+            'ip_address' => 'nullable|string|max:255',
+            'service_ids' => 'nullable|array',
+            'service_ids.*' => 'exists:services,id',
+        ]);
+
+        $equipment->update($request->only(['name', 'price', 'description', 'mac_address', 'ip_address']));
+
+        if ($request->filled('service_ids')) {
+            $equipment->services()->sync($request->service_ids);
+        } else {
+            $equipment->services()->detach();
+        }
+
+        return redirect()->route('sysadmin.equipment.index')->with('success', 'Оборудование обновлено');
+    }
+
+    /**
+     * Удаление оборудования
+     */
+    public function destroy(Equipment $equipment)
+    {
+        try {
+            // Удаляем связи с услугами
+            $equipment->services()->detach();
+            // Удаляем оборудование
+            $equipment->delete();
+
+            return redirect()->back()->with('success', 'Оборудование удалено');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Не удалось удалить оборудование: ' . $e->getMessage());
+        }
     }
 
     /**

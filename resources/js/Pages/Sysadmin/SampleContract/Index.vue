@@ -130,16 +130,25 @@
             </div>
 
             <!-- Пагинация - как в примере -->
-            <div class="mt-6">
-                <a
-                    href="#"
-                    v-for="page in contractsData.meta.links"
-                    class="inline-block mr-2 px-3 py-1 bg-white border border-gray-200 text-gray-700 rounded hover:bg-gray-50"
-                    :class="{ 'bg-[green] text-white': page.active }"
-                    v-html="page.label"
-                    @click.prevent="filter.page = page.label; showFilterPosts(page.label)"
-                >
-                </a>
+            <div class="mt-6 flex justify-center">
+                <template v-for="(link, index) in paginationLinks" :key="index">
+                    <button
+                        v-if="link.url"
+                        @click="goToPage(link)"
+                        class="inline-block mx-1 px-3 py-1 border rounded transition-colors"
+                        :class="link.active
+                        ? 'bg-[#4E89A5] text-white border-[#4E89A5] cursor-default'
+                        : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'"
+                        :disabled="link.active"
+                    >
+                        <span v-html="link.label"></span>
+                    </button>
+                    <span
+                        v-else
+                        class="inline-block mx-1 px-3 py-1 bg-gray-100 border border-gray-200 text-gray-400 rounded cursor-not-allowed"
+                        v-html="link.label"
+                    ></span>
+                </template>
             </div>
         </div>
 
@@ -210,15 +219,15 @@ export default {
     methods: {
         showFilterPosts(page) {
             // Обработка навигации по страницам
-            if (page && page.includes('Previous') && this.contractsData.meta.current_page !== 1) {
+            if (page && page.includes('Пред.') && this.contractsData.meta.current_page !== 1) {
                 this.filter.page = Number(this.contractsData.meta.current_page) - 1;
-            } else if (page && page.includes('Next') && this.contractsData.meta.current_page !== this.contractsData.meta.last_page) {
+            } else if (page && page.includes('След.') && this.contractsData.meta.current_page !== this.contractsData.meta.last_page) {
                 this.filter.page = Number(this.contractsData.meta.current_page) + 1;
             } else if (page && !isNaN(page) && page !== '') {
                 // Если это номер страницы
                 this.filter.page = Number(page);
-            } else if (page && (page.includes('Previous') || page.includes('Next'))) {
-                return; // Выходим если это Previous/Next на границах
+            } else if (page && (page.includes('Пред.') || page.includes('След.'))) {
+                return; // Выходим если это Пред./След. на границах
             }
 
             axios.get(route('manager.sample-contracts.index'), {
@@ -264,6 +273,31 @@ export default {
                 'draft': 'Черновик'
             };
             return labels[status] || status;
+        }
+    },
+    computed:{
+        paginationLinks() {
+            if (!this.requestsData?.meta?.links) return [];
+
+            return this.requestsData.meta.links.map(link => {
+                let label = link.label;
+
+                // Замена английских названий на русские
+                if (label === '&laquo; Previous' || label === 'Previous') {
+                    label = 'Пред.';
+                } else if (label === 'Next &raquo;' || label === 'Next') {
+                    label = 'След.';
+                } else if (label === '&laquo; First') {
+                    label = '« Первая';
+                } else if (label === 'Last &raquo;') {
+                    label = 'Последняя »';
+                }
+
+                return {
+                    ...link,
+                    label: label
+                };
+            });
         }
     }
 };
