@@ -22,21 +22,6 @@
                             <p v-if="errors.contract_id" class="mt-1 text-sm text-red-600">{{ errors.contract_id }}</p>
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Тариф *</label>
-                            <select
-                                v-model="form.tariff_id"
-                                class="input-field"
-                                :class="{ 'border-red-500': errors.tariff_id }"
-                                required
-                            >
-                                <option value="">Выберите тариф</option>
-                                <option v-for="t in tariffs" :key="t.id" :value="t.id">
-                                    {{ t.name }} — {{ formatCurrency(t.price) }}
-                                </option>
-                            </select>
-                            <p v-if="errors.tariff_id" class="mt-1 text-sm text-red-600">{{ errors.tariff_id }}</p>
-                        </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Сумма (₽) *</label>

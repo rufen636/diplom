@@ -7,19 +7,6 @@
                 <form @submit.prevent="submit">
                     <div class="space-y-4">
                         <!-- Название сайта -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Название сайта
-                            </label>
-                            <input
-                                v-model="form.site_name"
-                                type="text"
-                                class="input-field"
-                                :class="{ 'border-red-500': errors.site_name }"
-                                required
-                            />
-                            <p v-if="errors.site_name" class="mt-1 text-sm text-red-600">{{ errors.site_name }}</p>
-                        </div>
 
                         <!-- Email сайта -->
                         <div>

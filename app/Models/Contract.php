@@ -57,7 +57,8 @@ class Contract extends Model
         'amount',
         'status',
         'description',
-        'service_request_id'
+        'service_request_id',
+        'tariff_id',
     ];
 
     protected $casts = [
