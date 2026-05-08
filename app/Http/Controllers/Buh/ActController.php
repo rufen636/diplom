@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Buh;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Accountant\Act\ActResource;
 use App\Models\Billing;
 use App\Models\BuhAct;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +24,12 @@ class ActController extends Controller
             'billings' => $billings,
         ]);
     }
-
+    public function indexApi()
+    {
+        $acts = BuhAct::all();
+        $data = ActResource::collection($acts)->resolve();
+        return $data;
+    }
     public function index(Request $request): Response
     {
         $acts = BuhAct::with(['providerClient', 'contract'])

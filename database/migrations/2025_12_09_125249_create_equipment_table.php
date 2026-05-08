@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('mac_address')->nullable();
             $table->string('ip_address')->nullable();
             $table->integer('quantity')->nullable();
-            $table->foreignId('service_id')->constrained();
+            $table->foreignId('service_id')->nullable()->constrained();
 //            $table->foreignId('network_map_id')->nullable()->constrained('network_maps');
             $table->timestamps();
         });

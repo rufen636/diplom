@@ -55,7 +55,6 @@ class BillingController extends Controller
     {
         $validated = $request->validate([
             'contract_id' => 'required|exists:contracts,id',
-            'tariff_id' => 'required|exists:tariffs,id',
             'amount' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'period_start' => 'nullable|date',
@@ -71,7 +70,7 @@ class BillingController extends Controller
             '0',
             STR_PAD_LEFT
         );
-
+        $validated['tariff_id'] = $contract->tariff_id;
         $billing = Billing::create([
             ...$validated,
             'billing_number' => $billingNumber,

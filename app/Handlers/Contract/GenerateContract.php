@@ -22,9 +22,10 @@ class GenerateContract
            'status' => 'pending',
            'payment_status' => 'pending',
            'service_id' => $serviceRequest->service_id,
-           'sample_id' => $serviceRequest->sample_id,
+           'sample_id' => $serviceRequest->sample_contract_id,
            'description' => $serviceRequest->description,
-            'service_request_id' => $serviceRequest->id
+            'service_request_id' => $serviceRequest->id,
+            'tariff_id' => $serviceRequest->tariff_id,
         ]);
         return $contract;
     }

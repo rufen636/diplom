@@ -73,6 +73,7 @@ class ServiceRequestController extends Controller
      */
     public function destroy(ServiceRequest $serviceRequest)
     {
-        //
+        $serviceRequest->delete();
+        return redirect()->route('manager.service-requests.index')->with('success', 'Service Request has been deleted.');
     }
 }
