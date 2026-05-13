@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\TariffApiController;
 use App\Http\Controllers\Buh\ActController;
 use App\Http\Controllers\Manager\ProviderClientsController;
 use Illuminate\Http\Request;
@@ -11,4 +12,11 @@ Route::get('/user', function (Request $request) {
 
 Route::resource('/provider-clients', ProviderClientsController::class);
 
-Route::get('/acts',[ActController::class,'indexApi'])->name('acts.index.api');
+Route::get('/acts', [ActController::class, 'indexApi'])->name('acts.index.api');
+
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+    Route::get('/tariffs', [TariffApiController::class, 'index']);
+    Route::post('/tariffs', [TariffApiController::class, 'store']);
+    Route::patch('/tariffs/{tariff}', [TariffApiController::class, 'update']);
+    Route::delete('/tariffs/{tariff}', [TariffApiController::class, 'destroy']);
+});

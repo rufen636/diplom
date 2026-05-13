@@ -61,6 +61,7 @@ class Tariff extends Model
         'duration_months',
         'is_active',
         'sort_order',
+        'user_id',
     ];
 
     protected $casts = [

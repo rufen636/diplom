@@ -268,6 +268,479 @@
                     }
                 ]
             }
+        },
+        "/api/v1/tariffs": {
+            "get": {
+                "tags": [
+                    "TariffsJsonApi"
+                ],
+                "summary": "Список тарифов (JSON)",
+                "operationId": "apiV1TariffsIndex",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "speed": {
+                                                        "type": "integer"
+                                                    },
+                                                    "duration_months": {
+                                                        "type": "integer"
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "TariffsJsonApi"
+                ],
+                "summary": "Создать тариф (JSON)",
+                "operationId": "apiV1TariffsStore",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "speed",
+                                    "duration_months"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Тариф API"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 890
+                                    },
+                                    "speed": {
+                                        "type": "integer",
+                                        "example": 200
+                                    },
+                                    "duration_months": {
+                                        "type": "integer",
+                                        "example": 6
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "sort_order": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Создано"
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tariffs/{tariff}": {
+            "delete": {
+                "tags": [
+                    "TariffsJsonApi"
+                ],
+                "summary": "Удалить тариф (JSON)",
+                "operationId": "apiV1TariffsDestroy",
+                "parameters": [
+                    {
+                        "name": "tariff",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Удалено"
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "403": {
+                        "description": "Чужой тариф"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "TariffsJsonApi"
+                ],
+                "summary": "Обновить тариф (JSON)",
+                "operationId": "apiV1TariffsUpdate",
+                "parameters": [
+                    {
+                        "name": "tariff",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "speed",
+                                    "duration_months"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "speed": {
+                                        "type": "integer"
+                                    },
+                                    "duration_months": {
+                                        "type": "integer"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "sort_order": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "403": {
+                        "description": "Чужой тариф"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/manager/contracts/{contract}": {
+            "delete": {
+                "tags": [
+                    "Contracts"
+                ],
+                "summary": "Удалить договор (веб; нужен CSRF)",
+                "operationId": "managerContractsDestroy",
+                "parameters": [
+                    {
+                        "name": "contract",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Редирект после удаления"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Contracts"
+                ],
+                "summary": "Обновить договор (веб, PUT/PATCH через форму; нужен CSRF)",
+                "operationId": "managerContractsUpdate",
+                "parameters": [
+                    {
+                        "name": "contract",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "contract_number": {
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "Редирект после обновления"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/manager/tariffs/{tariff}": {
+            "delete": {
+                "tags": [
+                    "Tariffs"
+                ],
+                "summary": "Удалить тариф (веб; нужен CSRF)",
+                "operationId": "managerTariffsDestroy",
+                "parameters": [
+                    {
+                        "name": "tariff",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Редирект после удаления"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Tariffs"
+                ],
+                "summary": "Обновить тариф (веб; нужен CSRF)",
+                "operationId": "managerTariffsUpdate",
+                "parameters": [
+                    {
+                        "name": "tariff",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "speed": {
+                                        "type": "integer"
+                                    },
+                                    "duration_months": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "Редирект после обновления"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/manager/provider-clients/{provider_client}": {
+            "delete": {
+                "tags": [
+                    "ProviderClients"
+                ],
+                "summary": "Удалить клиента провайдера (веб; нужен CSRF)",
+                "operationId": "managerProviderClientsDestroy",
+                "parameters": [
+                    {
+                        "name": "provider_client",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Редирект после удаления"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "ProviderClients"
+                ],
+                "summary": "Обновить клиента провайдера (веб; нужен CSRF)",
+                "operationId": "managerProviderClientsUpdate",
+                "parameters": [
+                    {
+                        "name": "provider_client",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Редирект после обновления"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -283,15 +756,19 @@
     "tags": [
         {
             "name": "Tariffs",
-            "description": "Управление тарифами"
+            "description": "Управление тарифами (веб, Inertia, требуется CSRF)"
         },
         {
             "name": "Contracts",
-            "description": "Управление договорами"
+            "description": "Управление договорами (веб, Inertia, требуется CSRF)"
         },
         {
             "name": "ProviderClients",
-            "description": "Управление клиентами провайдера"
+            "description": "Управление клиентами провайдера (веб, Inertia, требуется CSRF)"
+        },
+        {
+            "name": "TariffsJsonApi",
+            "description": "JSON API тарифов по префиксу /api/v1 (Sanctum, без CSRF)"
         }
     ]
 }
