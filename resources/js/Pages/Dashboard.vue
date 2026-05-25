@@ -24,7 +24,7 @@ export default {
             <h2
                 class="text-xl font-semibold leading-tight text-gray-800"
             >
-                Dashboard
+                Дашборд
             </h2>
         </template>
 

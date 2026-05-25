@@ -16,6 +16,7 @@ final class ServiceRequestDto  implements DtoInterface
     public int $sample_contract_id;
     public string $installation_address;
     public string $status;
+    public string $tariff_id;
 
     /**
      * @param $id
@@ -27,7 +28,7 @@ final class ServiceRequestDto  implements DtoInterface
      * @param string $installation_address
      * @param string $status
      */
-    public function __construct($id, string $title, string $description, int $service_id, int $client_id, int $sample_contract_id, string $installation_address, string $status)
+    public function __construct($id, string $title, string $description, int $service_id, int $client_id, int $sample_contract_id, string $installation_address, string $status,int $tariff_id)
     {
         $this->id = $id;
         $this->title = $title;
@@ -37,6 +38,7 @@ final class ServiceRequestDto  implements DtoInterface
         $this->sample_contract_id = $sample_contract_id;
         $this->installation_address = $installation_address;
         $this->status = $status;
+        $this->tariff_id = $tariff_id;
     }
 
 
@@ -53,6 +55,7 @@ final class ServiceRequestDto  implements DtoInterface
             Arr::get($data, 'sample_contract_id'),
             Arr::get($data, 'installation_address'),
             Arr::get($data, 'status'),
+            Arr::get($data,'tariff_id'),
         );
         return $object;
     }

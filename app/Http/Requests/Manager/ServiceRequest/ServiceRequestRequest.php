@@ -30,6 +30,7 @@ class ServiceRequestRequest extends FormRequest
             'client_id' => 'required|numeric',
             'sample_contract_id' => 'required|numeric',
             'installation_address' => 'nullable|string',
+            'tariff_id' => 'nullable',
             'status' => 'required|string',
         ];
     }

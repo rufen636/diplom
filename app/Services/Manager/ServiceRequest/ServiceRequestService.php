@@ -18,6 +18,7 @@ class ServiceRequestService
             'sample_contract_id' => $dto->sample_contract_id,
             'installation_address' => $dto->installation_address,
             'status' => $dto->status,
+            'tariff_id' => $dto->tariff_id
         ]);
     }
 }
