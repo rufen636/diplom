@@ -1,22 +1,23 @@
 <template>
-    <SysadminLayout>
-        <div class="py-6">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 class="text-2xl font-semibold text-gray-900">Карта покрытия сети</h1>
+    <SysadminLayout title="Карта покрытия сети">
+        <div class="max-w-7xl mx-auto">
+            <div class="page-toolbar">
+                <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">Карта покрытия сети</h1>
                 <button
                     @click="openAddModal"
-                    class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 flex items-center"
+                    class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 flex items-center justify-center w-full sm:w-auto"
                 >
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                     Добавить точку покрытия
                 </button>
-                <div class="mt-6 bg-white rounded-lg shadow overflow-hidden">
+            </div>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
                     <!-- Карта -->
-                    <div  style="z-index:10;height: 600px; width: 100%; position: relative;">
+                    <div class="relative z-10 w-full h-[min(60vh,600px)] min-h-[320px]">
                         <!-- Индикатор режима добавления -->
-                        <div v-if="isAddingMode" class="absolute top-4 right-4 z-10 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-lg">
+                        <div v-if="isAddingMode" class="absolute top-2 right-2 left-2 sm:left-auto sm:top-4 sm:right-4 z-10 bg-indigo-600 text-white px-3 py-2 sm:px-4 rounded-lg shadow-lg text-sm sm:text-base">
                             Режим добавления точки. Нажмите на карту для выбора местоположения
                             <button @click="cancelAddMode" class="ml-2 text-white hover:text-gray-200">✕</button>
                         </div>
@@ -111,7 +112,7 @@
                     <div class="p-4 border-t">
                         <div v-if="selectedNode" class="mb-4">
                             <h3 class="text-lg font-medium">Выбранный узел: {{ selectedNode.name }}</h3>
-                            <div class="mt-2 grid grid-cols-2 gap-4">
+                            <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <ul class="mt-1 space-y-1">
                                         <li v-for="equipment in (selectedNode.equipment || [])" :key="equipment.id" class="text-sm">
@@ -128,7 +129,7 @@
                         </div>
 
                         <!-- Поиск по адресу -->
-                        <div class="flex space-x-4">
+                        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                             <input
                                 type="text"
                                 v-model="searchAddress"
@@ -137,7 +138,7 @@
                             />
                             <button
                                 @click="searchByAddress"
-                                class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                                class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 shrink-0"
                             >
                                 Проверить
                             </button>
@@ -160,7 +161,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </SysadminLayout>
     <Transition name="modal">
         <div v-if="showModal" class="fixed inset-0 z-[9999] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -186,7 +186,7 @@
                                     />
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Широта <span class="text-red-500">*</span></label>
                                         <input

@@ -2,8 +2,8 @@
     <ManagerLayout title="Управление пользователями">
         <div class="card">
             <!-- Заголовок и кнопка создания -->
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-2xl font-semibold text-gray-800">Список пользователей</h3>
+            <div class="page-toolbar">
+                <h3 class="text-xl sm:text-2xl font-semibold text-gray-800">Список пользователей</h3>
                 <Link :href="route('manager.users.create')" class="btn-primary">
                     <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -80,7 +80,7 @@
             </div>
 
             <!-- Пагинация -->
-            <div class="mt-6 flex items-center justify-between">
+            <div class="page-pagination">
                 <div class="text-sm text-gray-700">
                     Показано {{ users.from }} - {{ users.to }} из {{ users.total }} пользователей
                 </div>

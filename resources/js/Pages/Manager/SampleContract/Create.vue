@@ -9,7 +9,7 @@
 
             <form @submit.prevent="saveTemplate" class="p-6">
                 <!-- Основная информация -->
-                <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
                             Код шаблона *
@@ -182,7 +182,7 @@
                 <div class="border-t pt-6 mt-6">
                     <h4 class="text-lg font-medium text-gray-800 mb-4">Дополнительные настройки</h4>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">
                                 Стандартный шаблон

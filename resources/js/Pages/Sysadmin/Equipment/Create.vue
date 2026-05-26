@@ -16,7 +16,7 @@
                         <textarea v-model="form.description" rows="2" class="input-field w-full" placeholder="Wi‑Fi роутер"></textarea>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">MAC-адрес</label>
                             <input v-model="form.mac_address" type="text" class="input-field w-full" placeholder="AA:BB:CC:DD:EE:01" />

@@ -1,8 +1,8 @@
 <template>
     <AccountantLayout title="Акты">
         <div class="card">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-2xl font-semibold text-gray-800">Список актов</h3>
+            <div class="page-toolbar">
+                <h3 class="text-xl sm:text-2xl font-semibold text-gray-800">Список актов</h3>
                 <Link :href="route('accountant.acts.create')" class="btn-primary">
                     Сформировать акты из оплаченных счетов
                 </Link>
@@ -53,7 +53,7 @@
                 </table>
             </div>
 
-            <div class="mt-6 flex items-center justify-between">
+            <div class="page-pagination">
                 <div class="text-sm text-gray-700">
                     Показано {{ acts.from ?? 0 }} - {{ acts.to ?? 0 }} из {{ acts.total ?? 0 }}
                 </div>

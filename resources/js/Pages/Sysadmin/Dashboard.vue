@@ -91,7 +91,7 @@
 
         <!-- Последние договоры -->
         <div class="card mb-8">
-            <div class="flex items-center justify-between mb-6">
+            <div class="page-toolbar">
                 <h3 class="text-xl font-semibold text-gray-800">Последние договоры</h3>
                 <Link :href="route('manager.contracts.index')" class="btn-secondary">
                     Все договоры
@@ -143,7 +143,7 @@
 
         <!-- Последние пользователи -->
         <div class="card">
-            <div class="flex items-center justify-between mb-6">
+            <div class="page-toolbar">
                 <h3 class="text-xl font-semibold text-gray-800">Последние пользователи</h3>
                 <Link :href="route('manager.users.index')" class="btn-secondary">
                     Все пользователи

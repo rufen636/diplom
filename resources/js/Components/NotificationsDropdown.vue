@@ -18,7 +18,7 @@
 
         <div
             v-if="isOpen"
-            class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg z-50 border border-gray-200"
+            class="absolute right-0 mt-2 w-[min(20rem,calc(100vw-2rem))] bg-white rounded-lg shadow-lg z-50 border border-gray-200"
         >
             <div class="p-3 border-b border-gray-200">
                 <div class="flex justify-between items-center">

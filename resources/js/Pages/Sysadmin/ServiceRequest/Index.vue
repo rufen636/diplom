@@ -1,8 +1,8 @@
 <template>
     <SysadminLayout title="Заявки на проверке">
         <div class="card">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-2xl font-semibold text-gray-800">Заявки на проверке</h3>
+            <div class="page-toolbar">
+                <h3 class="text-xl sm:text-2xl font-semibold text-gray-800">Заявки на проверке</h3>
                 <div v-if="statistics" class="flex gap-4 text-sm">
                     <span class="text-blue-600">На проверке: {{ statistics.on_inspection }}</span>
                     <span class="text-green-600">С оборудованием: {{ statistics.equipment_assigned }}</span>

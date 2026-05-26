@@ -9,7 +9,7 @@
 
             <form @submit.prevent="updateTemplate" class="p-6">
                 <!-- Основная информация -->
-                <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
                             Код шаблона *
